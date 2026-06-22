@@ -5,7 +5,9 @@ import { queryClient } from '@/lib/query-client'
 
 const RootLayout = () => (
   <QueryClientProvider client={queryClient}>
-    <Outlet />
+    <div className="min-h-full flex flex-col antialiased">
+      <Outlet />
+    </div>
 
     <Toaster richColors />
   </QueryClientProvider>
