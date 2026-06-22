@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicSignUpIndexRouteImport } from './routes/_public/sign-up/index'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -21,24 +22,32 @@ const PublicIndexRoute = PublicIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicSignUpIndexRoute = PublicSignUpIndexRouteImport.update({
+  id: '/sign-up/',
+  path: '/sign-up/',
+  getParentRoute: () => PublicRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
+  '/sign-up/': typeof PublicSignUpIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
+  '/sign-up': typeof PublicSignUpIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_public': typeof PublicRouteWithChildren
   '/_public/': typeof PublicIndexRoute
+  '/_public/sign-up/': typeof PublicSignUpIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/sign-up/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/_public' | '/_public/'
+  to: '/' | '/sign-up'
+  id: '__root__' | '/_public' | '/_public/' | '/_public/sign-up/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -61,15 +70,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/sign-up/': {
+      id: '/_public/sign-up/'
+      path: '/sign-up'
+      fullPath: '/sign-up/'
+      preLoaderRoute: typeof PublicSignUpIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
   }
 }
 
 interface PublicRouteChildren {
   PublicIndexRoute: typeof PublicIndexRoute
+  PublicSignUpIndexRoute: typeof PublicSignUpIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicIndexRoute: PublicIndexRoute,
+  PublicSignUpIndexRoute: PublicSignUpIndexRoute,
 }
 
 const PublicRouteWithChildren =
