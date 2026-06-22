@@ -122,6 +122,7 @@ export function SignUpForm({ onSubmitSuccess }: SignUpFormProps) {
                   placeholder="Seu nome completo"
                   aria-invalid={fieldState.invalid}
                   autoComplete="off"
+                  spellCheck={false}
                 />
                 <InputGroupAddon>
                   <UserIcon />
@@ -145,6 +146,7 @@ export function SignUpForm({ onSubmitSuccess }: SignUpFormProps) {
                     placeholder="seu.email@dominio.com"
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
+                    spellCheck={false}
                   />
                   <InputGroupAddon>
                     <MailIcon />
@@ -169,6 +171,7 @@ export function SignUpForm({ onSubmitSuccess }: SignUpFormProps) {
                     placeholder="12/34567"
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
+                    spellCheck={false}
                   />
                   <InputGroupAddon>
                     <IdCardIcon />
@@ -196,6 +199,7 @@ export function SignUpForm({ onSubmitSuccess }: SignUpFormProps) {
                     placeholder="******"
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
+                    spellCheck={false}
                   />
                   <InputGroupAddon>
                     <LockIcon />
@@ -229,6 +233,7 @@ export function SignUpForm({ onSubmitSuccess }: SignUpFormProps) {
                     placeholder="******"
                     aria-invalid={fieldState.invalid}
                     autoComplete="off"
+                    spellCheck={false}
                   />
                   <InputGroupAddon>
                     <LockIcon />

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicSignUpIndexRouteImport } from './routes/_public/sign-up/index'
+import { Route as PublicSignInIndexRouteImport } from './routes/_public/sign-in/index'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -27,27 +28,40 @@ const PublicSignUpIndexRoute = PublicSignUpIndexRouteImport.update({
   path: '/sign-up/',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicSignInIndexRoute = PublicSignInIndexRouteImport.update({
+  id: '/sign-in/',
+  path: '/sign-in/',
+  getParentRoute: () => PublicRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
+  '/sign-in/': typeof PublicSignInIndexRoute
   '/sign-up/': typeof PublicSignUpIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
+  '/sign-in': typeof PublicSignInIndexRoute
   '/sign-up': typeof PublicSignUpIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_public': typeof PublicRouteWithChildren
   '/_public/': typeof PublicIndexRoute
+  '/_public/sign-in/': typeof PublicSignInIndexRoute
   '/_public/sign-up/': typeof PublicSignUpIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-up/'
+  fullPaths: '/' | '/sign-in/' | '/sign-up/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-up'
-  id: '__root__' | '/_public' | '/_public/' | '/_public/sign-up/'
+  to: '/' | '/sign-in' | '/sign-up'
+  id:
+    | '__root__'
+    | '/_public'
+    | '/_public/'
+    | '/_public/sign-in/'
+    | '/_public/sign-up/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,16 +91,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSignUpIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/sign-in/': {
+      id: '/_public/sign-in/'
+      path: '/sign-in'
+      fullPath: '/sign-in/'
+      preLoaderRoute: typeof PublicSignInIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
   }
 }
 
 interface PublicRouteChildren {
   PublicIndexRoute: typeof PublicIndexRoute
+  PublicSignInIndexRoute: typeof PublicSignInIndexRoute
   PublicSignUpIndexRoute: typeof PublicSignUpIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicIndexRoute: PublicIndexRoute,
+  PublicSignInIndexRoute: PublicSignInIndexRoute,
   PublicSignUpIndexRoute: PublicSignUpIndexRoute,
 }
 
