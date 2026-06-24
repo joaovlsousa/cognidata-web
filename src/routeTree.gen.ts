@@ -13,6 +13,7 @@ import { Route as PublicRouteImport } from './routes/_public'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicSignUpIndexRouteImport } from './routes/_public/sign-up/index'
 import { Route as PublicSignInIndexRouteImport } from './routes/_public/sign-in/index'
+import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -33,14 +34,21 @@ const PublicSignInIndexRoute = PublicSignInIndexRouteImport.update({
   path: '/sign-in/',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicContactIndexRoute = PublicContactIndexRouteImport.update({
+  id: '/contact/',
+  path: '/contact/',
+  getParentRoute: () => PublicRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicIndexRoute
+  '/contact/': typeof PublicContactIndexRoute
   '/sign-in/': typeof PublicSignInIndexRoute
   '/sign-up/': typeof PublicSignUpIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicIndexRoute
+  '/contact': typeof PublicContactIndexRoute
   '/sign-in': typeof PublicSignInIndexRoute
   '/sign-up': typeof PublicSignUpIndexRoute
 }
@@ -48,18 +56,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_public': typeof PublicRouteWithChildren
   '/_public/': typeof PublicIndexRoute
+  '/_public/contact/': typeof PublicContactIndexRoute
   '/_public/sign-in/': typeof PublicSignInIndexRoute
   '/_public/sign-up/': typeof PublicSignUpIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in/' | '/sign-up/'
+  fullPaths: '/' | '/contact/' | '/sign-in/' | '/sign-up/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/sign-up'
+  to: '/' | '/contact' | '/sign-in' | '/sign-up'
   id:
     | '__root__'
     | '/_public'
     | '/_public/'
+    | '/_public/contact/'
     | '/_public/sign-in/'
     | '/_public/sign-up/'
   fileRoutesById: FileRoutesById
@@ -98,17 +108,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSignInIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/contact/': {
+      id: '/_public/contact/'
+      path: '/contact'
+      fullPath: '/contact/'
+      preLoaderRoute: typeof PublicContactIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
   }
 }
 
 interface PublicRouteChildren {
   PublicIndexRoute: typeof PublicIndexRoute
+  PublicContactIndexRoute: typeof PublicContactIndexRoute
   PublicSignInIndexRoute: typeof PublicSignInIndexRoute
   PublicSignUpIndexRoute: typeof PublicSignUpIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicIndexRoute: PublicIndexRoute,
+  PublicContactIndexRoute: PublicContactIndexRoute,
   PublicSignInIndexRoute: PublicSignInIndexRoute,
   PublicSignUpIndexRoute: PublicSignUpIndexRoute,
 }

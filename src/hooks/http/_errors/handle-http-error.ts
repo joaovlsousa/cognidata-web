@@ -12,5 +12,6 @@ export function handleHttpError(error: Error) {
 
   toast.error(messageTitle, {
     description: messageDescription,
+    duration: 10 * 1000, //10 seconds
   })
 }

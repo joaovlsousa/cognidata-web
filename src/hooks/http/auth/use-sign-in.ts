@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { type SignInRequest, signIn } from '@/http/auth/sign-in'
-import { handleHttpError } from '../errors/handle-http-error'
+import { handleHttpError } from '../_errors/handle-http-error'
 
 export function useSignIn() {
   return useMutation({
