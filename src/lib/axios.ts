@@ -1,4 +1,5 @@
 import axios from 'axios'
+import cookies from 'js-cookie'
 import { env } from '@/config/env'
 
 export const api = axios.create({
@@ -10,7 +11,9 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      api.delete('/auth/sign-out')
+      cookies.remove('role', {
+        path: '/',
+      })
 
       return Promise.resolve()
     }

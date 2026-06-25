@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
+import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicSignUpIndexRouteImport } from './routes/_public/sign-up/index'
 import { Route as PublicSignInIndexRouteImport } from './routes/_public/sign-in/index'
@@ -17,6 +18,11 @@ import { Route as PublicContactIndexRouteImport } from './routes/_public/contact
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRouteRoute = AppRouteRouteImport.update({
+  id: '/app',
+  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PublicIndexRoute = PublicIndexRouteImport.update({
@@ -41,12 +47,14 @@ const PublicContactIndexRoute = PublicContactIndexRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/app': typeof AppRouteRoute
   '/': typeof PublicIndexRoute
   '/contact/': typeof PublicContactIndexRoute
   '/sign-in/': typeof PublicSignInIndexRoute
   '/sign-up/': typeof PublicSignUpIndexRoute
 }
 export interface FileRoutesByTo {
+  '/app': typeof AppRouteRoute
   '/': typeof PublicIndexRoute
   '/contact': typeof PublicContactIndexRoute
   '/sign-in': typeof PublicSignInIndexRoute
@@ -54,6 +62,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/app': typeof AppRouteRoute
   '/_public': typeof PublicRouteWithChildren
   '/_public/': typeof PublicIndexRoute
   '/_public/contact/': typeof PublicContactIndexRoute
@@ -62,11 +71,12 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact/' | '/sign-in/' | '/sign-up/'
+  fullPaths: '/app' | '/' | '/contact/' | '/sign-in/' | '/sign-up/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/sign-in' | '/sign-up'
+  to: '/app' | '/' | '/contact' | '/sign-in' | '/sign-up'
   id:
     | '__root__'
+    | '/app'
     | '/_public'
     | '/_public/'
     | '/_public/contact/'
@@ -75,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AppRouteRoute: typeof AppRouteRoute
   PublicRoute: typeof PublicRouteWithChildren
 }
 
@@ -85,6 +96,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof PublicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_public/': {
@@ -136,6 +154,7 @@ const PublicRouteWithChildren =
   PublicRoute._addFileChildren(PublicRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  AppRouteRoute: AppRouteRoute,
   PublicRoute: PublicRouteWithChildren,
 }
 export const routeTree = rootRouteImport
