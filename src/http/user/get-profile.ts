@@ -6,7 +6,7 @@ export interface GetProfileResponse {
     role: 'admin' | 'applicator'
     name: string
     email: string
-    crp: null
+    crp: string | null
     isActive: boolean
     createdAt: Date
   }

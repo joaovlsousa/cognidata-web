@@ -1,8 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { useSignOut } from '@/hooks/http/auth/use-sign-out'
-import { useGetProfile } from '@/hooks/http/user/use-get-profile'
 import { useAuth } from '@/hooks/use-auth'
+import { Sidebar } from './-components/sidebar'
 
 export const Route = createFileRoute('/app')({
   component: RouteComponent,
@@ -11,7 +11,6 @@ export const Route = createFileRoute('/app')({
 function RouteComponent() {
   const { user } = useAuth()
   const signOutMutation = useSignOut()
-  const { data, isLoading } = useGetProfile()
 
   useEffect(() => {
     if (!user.isAuthenticated) {
@@ -20,13 +19,13 @@ function RouteComponent() {
   }, [user, signOutMutation])
 
   return (
-    <div>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-      {isLoading && <p>carregando...</p>}
-      <button type="button" onClick={() => signOutMutation.mutateAsync()}>
-        sair
-      </button>
-    </div>
+    <>
+      <Sidebar />
+      <div className="ml-72 w-full max-w-[calc(100%-18rem)]">
+        <main className="max-w-5xl mx-auto bg-primary/20">
+          <Outlet />
+        </main>
+      </div>
+    </>
   )
 }
