@@ -11,10 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
 import { Route as AppRouteRouteImport } from './routes/app/route'
-import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as PublicTermsIndexRouteImport } from './routes/_public/terms/index'
 import { Route as PublicSignUpIndexRouteImport } from './routes/_public/sign-up/index'
 import { Route as PublicSignInIndexRouteImport } from './routes/_public/sign-in/index'
+import { Route as PublicPoliciesIndexRouteImport } from './routes/_public/policies/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
+import { Route as PublicHomeIndexRouteImport } from './routes/_public/_home/index'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -25,9 +27,9 @@ const AppRouteRoute = AppRouteRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PublicIndexRoute = PublicIndexRouteImport.update({
-  id: '/',
-  path: '/',
+const PublicTermsIndexRoute = PublicTermsIndexRouteImport.update({
+  id: '/terms/',
+  path: '/terms/',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicSignUpIndexRoute = PublicSignUpIndexRouteImport.update({
@@ -40,48 +42,80 @@ const PublicSignInIndexRoute = PublicSignInIndexRouteImport.update({
   path: '/sign-in/',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicPoliciesIndexRoute = PublicPoliciesIndexRouteImport.update({
+  id: '/policies/',
+  path: '/policies/',
+  getParentRoute: () => PublicRoute,
+} as any)
 const PublicContactIndexRoute = PublicContactIndexRouteImport.update({
   id: '/contact/',
   path: '/contact/',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicHomeIndexRoute = PublicHomeIndexRouteImport.update({
+  id: '/_home/',
+  path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRoute
-  '/': typeof PublicIndexRoute
+  '/': typeof PublicHomeIndexRoute
   '/contact/': typeof PublicContactIndexRoute
+  '/policies/': typeof PublicPoliciesIndexRoute
   '/sign-in/': typeof PublicSignInIndexRoute
   '/sign-up/': typeof PublicSignUpIndexRoute
+  '/terms/': typeof PublicTermsIndexRoute
 }
 export interface FileRoutesByTo {
   '/app': typeof AppRouteRoute
-  '/': typeof PublicIndexRoute
+  '/': typeof PublicHomeIndexRoute
   '/contact': typeof PublicContactIndexRoute
+  '/policies': typeof PublicPoliciesIndexRoute
   '/sign-in': typeof PublicSignInIndexRoute
   '/sign-up': typeof PublicSignUpIndexRoute
+  '/terms': typeof PublicTermsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/app': typeof AppRouteRoute
   '/_public': typeof PublicRouteWithChildren
-  '/_public/': typeof PublicIndexRoute
+  '/_public/_home/': typeof PublicHomeIndexRoute
   '/_public/contact/': typeof PublicContactIndexRoute
+  '/_public/policies/': typeof PublicPoliciesIndexRoute
   '/_public/sign-in/': typeof PublicSignInIndexRoute
   '/_public/sign-up/': typeof PublicSignUpIndexRoute
+  '/_public/terms/': typeof PublicTermsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/app' | '/' | '/contact/' | '/sign-in/' | '/sign-up/'
+  fullPaths:
+    | '/app'
+    | '/'
+    | '/contact/'
+    | '/policies/'
+    | '/sign-in/'
+    | '/sign-up/'
+    | '/terms/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/app' | '/' | '/contact' | '/sign-in' | '/sign-up'
+  to:
+    | '/app'
+    | '/'
+    | '/contact'
+    | '/policies'
+    | '/sign-in'
+    | '/sign-up'
+    | '/terms'
   id:
     | '__root__'
     | '/app'
     | '/_public'
-    | '/_public/'
+    | '/_public/_home/'
     | '/_public/contact/'
+    | '/_public/policies/'
     | '/_public/sign-in/'
     | '/_public/sign-up/'
+    | '/_public/terms/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -105,11 +139,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_public/': {
-      id: '/_public/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof PublicIndexRouteImport
+    '/_public/terms/': {
+      id: '/_public/terms/'
+      path: '/terms'
+      fullPath: '/terms/'
+      preLoaderRoute: typeof PublicTermsIndexRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/sign-up/': {
@@ -126,6 +160,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSignInIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/policies/': {
+      id: '/_public/policies/'
+      path: '/policies'
+      fullPath: '/policies/'
+      preLoaderRoute: typeof PublicPoliciesIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
     '/_public/contact/': {
       id: '/_public/contact/'
       path: '/contact'
@@ -133,21 +174,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicContactIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/_home/': {
+      id: '/_public/_home/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PublicHomeIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
   }
 }
 
 interface PublicRouteChildren {
-  PublicIndexRoute: typeof PublicIndexRoute
+  PublicHomeIndexRoute: typeof PublicHomeIndexRoute
   PublicContactIndexRoute: typeof PublicContactIndexRoute
+  PublicPoliciesIndexRoute: typeof PublicPoliciesIndexRoute
   PublicSignInIndexRoute: typeof PublicSignInIndexRoute
   PublicSignUpIndexRoute: typeof PublicSignUpIndexRoute
+  PublicTermsIndexRoute: typeof PublicTermsIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
-  PublicIndexRoute: PublicIndexRoute,
+  PublicHomeIndexRoute: PublicHomeIndexRoute,
   PublicContactIndexRoute: PublicContactIndexRoute,
+  PublicPoliciesIndexRoute: PublicPoliciesIndexRoute,
   PublicSignInIndexRoute: PublicSignInIndexRoute,
   PublicSignUpIndexRoute: PublicSignUpIndexRoute,
+  PublicTermsIndexRoute: PublicTermsIndexRoute,
 }
 
 const PublicRouteWithChildren =

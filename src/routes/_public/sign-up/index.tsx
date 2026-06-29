@@ -2,14 +2,8 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { HospitalIcon, UserIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Logo } from '@/components/logo'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { InfoCard } from '../-components/info-card'
 import { SignUpForm } from './-components/sign-up-form'
 import { SuccessDialog } from './-components/success-dialog'
 
@@ -36,30 +30,16 @@ function RouteComponent() {
         <h3 className="text-2xl font-bold">Quem pode solicitar acesso?</h3>
 
         <div className="grid grid-cols-2 gap-x-3">
-          <Card>
-            <CardHeader className="gap-3">
-              <div className="size-10 grid place-items-center rounded-md ring ring-primary bg-primary/10">
-                <UserIcon className="size-6 text-primary" />
-              </div>
-              <CardTitle className="text-lg">Psicólogos clínicos</CardTitle>
-              <CardDescription>
-                Profissionais que realizam avaliações e intervenções em seus
-                atendimentos.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader className="gap-3">
-              <div className="size-10 grid place-items-center rounded-md ring ring-primary bg-primary/10">
-                <HospitalIcon className="size-6 text-primary" />
-              </div>
-              <CardTitle className="text-lg">Clínicas e consultórios</CardTitle>
-              <CardDescription>
-                Instituições que buscam mais eficiência e organização em seus
-                processos.
-              </CardDescription>
-            </CardHeader>
-          </Card>
+          <InfoCard
+            icon={UserIcon}
+            title="Psicólogos clínicos"
+            description="Profissionais que realizam avaliações e intervenções em seus atendimentos."
+          />
+          <InfoCard
+            icon={HospitalIcon}
+            title="Clínicas e consultórios"
+            description="Instituições que buscam mais eficiência e organização em seus processos."
+          />
         </div>
       </div>
 

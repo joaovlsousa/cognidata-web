@@ -1,22 +1,15 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import {
-  ChartNoAxesCombinedIcon,
-  ClipboardCheckIcon,
+  CheckCircleIcon,
   FlaskConicalIcon,
-  Gamepad2Icon,
   LockIcon,
   ShieldCheckIcon,
-  UsersIcon,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { InfoCard } from '../-components/info-card'
+import { benefits, resources } from './-data'
 
-export const Route = createFileRoute('/_public/')({
+export const Route = createFileRoute('/_public/_home/')({
   component: RouteComponent,
 })
 
@@ -28,10 +21,11 @@ function RouteComponent() {
           <h2 className="text-5xl font-bold leading-tight">
             Avaliação psicométrica com dados que apoiam decisões clínicas
           </h2>
-          <p className="font-medium text-muted-foreground leading-relaxed text-justify">
-            O PsicoHub centraliza avaliações, jogos educativos, indicadores
-            psicométricos e relatórios completos para psicólogos que buscam
-            precisão, eficiência e mais segurança em suas decisões.
+          <p className="pr-7 font-medium text-muted-foreground leading-relaxed text-justify">
+            O PsicoHub é um ambiente completo que centraliza avaliações, jogos
+            educativos, indicadores psicométricos e relatórios completos para
+            psicólogos que buscam precisão, eficiência e mais segurança em suas
+            decisões.
           </p>
 
           <div className="space-x-3">
@@ -40,9 +34,9 @@ function RouteComponent() {
                 Solicitar acesso
               </Button>
             </Link>
-            <Link to="/explore">
-              <Button variant="outline" size="lg">
-                Conheça a plataforma
+            <Link to="/operation">
+              <Button variant="outline" size="lg" className="px-6">
+                Veja como funciona
               </Button>
             </Link>
           </div>
@@ -77,58 +71,33 @@ function RouteComponent() {
         />
       </section>
 
-      <section className="grid grid-cols-4 gap-x-10">
-        <Card className="w-full shadow-md">
-          <CardHeader className="gap-3">
-            <div className="size-10 grid place-items-center rounded-md ring ring-primary bg-primary/10">
-              <UsersIcon className="size-6 text-primary" />
-            </div>
-            <CardTitle className="text-lg">Gestão de pacientes</CardTitle>
-            <CardDescription>
-              Cadastre, organize e acompanhe seus pacientes de forma prática e
-              segura.
-            </CardDescription>
-          </CardHeader>
-        </Card>
+      <section className="space-y-3">
+        <h3 className="text-2xl font-bold">
+          O que você encontra na plataforma
+        </h3>
 
-        <Card className="w-full shadow-md">
-          <CardHeader className="gap-3">
-            <div className="size-10 grid place-items-center rounded-md ring ring-primary bg-primary/10">
-              <ClipboardCheckIcon className="size-6 text-primary" />
-            </div>
-            <CardTitle className="text-lg">Avaliações psicométricas</CardTitle>
-            <CardDescription>
-              Aplique avaliações validadas e obtenha dados precisos e
-              confiáveis.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-
-        <Card className="w-full shadow-md">
-          <CardHeader className="gap-3">
-            <div className="size-10 grid place-items-center rounded-md ring ring-primary bg-primary/10">
-              <Gamepad2Icon className="size-6 text-primary" />
-            </div>
-            <CardTitle className="text-lg">Jogos educativos</CardTitle>
-            <CardDescription>
-              Utilize jogos baseados em habilidades cognitivas para avaliação e
-              intervenção.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-
-        <Card className="w-full shadow-md">
-          <CardHeader className="gap-3">
-            <div className="size-10 grid place-items-center rounded-md ring ring-primary bg-primary/10">
-              <ChartNoAxesCombinedIcon className="size-6 text-primary" />
-            </div>
-            <CardTitle className="text-lg">Relatórios e indicadores</CardTitle>
-            <CardDescription>
-              Gere relatórios completos e análise de indicadores para subsidiar
-              decisões clínicas.
-            </CardDescription>
-          </CardHeader>
-        </Card>
+        <div className="grid grid-cols-4 gap-x-10">
+          {resources.map((resource) => (
+            <InfoCard
+              key={resource.title}
+              icon={resource.icon}
+              title={resource.title}
+              description={resource.description}
+            >
+              <div className="space-y-3">
+                {resource.items.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-x-1.5 text-primary"
+                  >
+                    <CheckCircleIcon className="size-4" />
+                    <span className="text-sm">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </InfoCard>
+          ))}
+        </div>
       </section>
 
       <section className="relative h-56 ring ring-foreground/10 rounded-lg shadow-md">
@@ -144,7 +113,7 @@ function RouteComponent() {
             de Niridia e envia os dados psicométricos diretamente para o
             PsicoHub.
           </p>
-          <Link to="/games">
+          <Link to="/games" className="w-fit">
             <Button size="lg" className="px-6">
               Conheça o jogo
             </Button>
@@ -159,6 +128,21 @@ function RouteComponent() {
         />
 
         <div className="absolute left-[40%] top-0 w-56 h-full bg-linear-to-r from-background via-transparent to-transparent z-10" />
+      </section>
+
+      <section className="space-y-3">
+        <h3 className="text-2xl font-bold">Benefícios da plataforma</h3>
+
+        <div className="grid grid-cols-4 gap-x-6">
+          {benefits.map((benefit) => (
+            <InfoCard
+              key={benefit.title}
+              icon={benefit.icon}
+              title={benefit.title}
+              description={benefit.description}
+            />
+          ))}
+        </div>
       </section>
     </div>
   )
