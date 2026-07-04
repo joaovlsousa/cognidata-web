@@ -16,6 +16,7 @@ import { Route as PublicSignUpIndexRouteImport } from './routes/_public/sign-up/
 import { Route as PublicSignInIndexRouteImport } from './routes/_public/sign-in/index'
 import { Route as PublicPoliciesIndexRouteImport } from './routes/_public/policies/index'
 import { Route as PublicOperationIndexRouteImport } from './routes/_public/operation/index'
+import { Route as PublicGamesIndexRouteImport } from './routes/_public/games/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
 import { Route as PublicHomeIndexRouteImport } from './routes/_public/_home/index'
 
@@ -53,6 +54,11 @@ const PublicOperationIndexRoute = PublicOperationIndexRouteImport.update({
   path: '/operation/',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicGamesIndexRoute = PublicGamesIndexRouteImport.update({
+  id: '/games/',
+  path: '/games/',
+  getParentRoute: () => PublicRoute,
+} as any)
 const PublicContactIndexRoute = PublicContactIndexRouteImport.update({
   id: '/contact/',
   path: '/contact/',
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRoute
   '/': typeof PublicHomeIndexRoute
   '/contact/': typeof PublicContactIndexRoute
+  '/games/': typeof PublicGamesIndexRoute
   '/operation/': typeof PublicOperationIndexRoute
   '/policies/': typeof PublicPoliciesIndexRoute
   '/sign-in/': typeof PublicSignInIndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppRouteRoute
   '/': typeof PublicHomeIndexRoute
   '/contact': typeof PublicContactIndexRoute
+  '/games': typeof PublicGamesIndexRoute
   '/operation': typeof PublicOperationIndexRoute
   '/policies': typeof PublicPoliciesIndexRoute
   '/sign-in': typeof PublicSignInIndexRoute
@@ -90,6 +98,7 @@ export interface FileRoutesById {
   '/_public': typeof PublicRouteWithChildren
   '/_public/_home/': typeof PublicHomeIndexRoute
   '/_public/contact/': typeof PublicContactIndexRoute
+  '/_public/games/': typeof PublicGamesIndexRoute
   '/_public/operation/': typeof PublicOperationIndexRoute
   '/_public/policies/': typeof PublicPoliciesIndexRoute
   '/_public/sign-in/': typeof PublicSignInIndexRoute
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/'
     | '/contact/'
+    | '/games/'
     | '/operation/'
     | '/policies/'
     | '/sign-in/'
@@ -112,6 +122,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/'
     | '/contact'
+    | '/games'
     | '/operation'
     | '/policies'
     | '/sign-in'
@@ -123,6 +134,7 @@ export interface FileRouteTypes {
     | '/_public'
     | '/_public/_home/'
     | '/_public/contact/'
+    | '/_public/games/'
     | '/_public/operation/'
     | '/_public/policies/'
     | '/_public/sign-in/'
@@ -186,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicOperationIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/games/': {
+      id: '/_public/games/'
+      path: '/games'
+      fullPath: '/games/'
+      preLoaderRoute: typeof PublicGamesIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
     '/_public/contact/': {
       id: '/_public/contact/'
       path: '/contact'
@@ -206,6 +225,7 @@ declare module '@tanstack/react-router' {
 interface PublicRouteChildren {
   PublicHomeIndexRoute: typeof PublicHomeIndexRoute
   PublicContactIndexRoute: typeof PublicContactIndexRoute
+  PublicGamesIndexRoute: typeof PublicGamesIndexRoute
   PublicOperationIndexRoute: typeof PublicOperationIndexRoute
   PublicPoliciesIndexRoute: typeof PublicPoliciesIndexRoute
   PublicSignInIndexRoute: typeof PublicSignInIndexRoute
@@ -216,6 +236,7 @@ interface PublicRouteChildren {
 const PublicRouteChildren: PublicRouteChildren = {
   PublicHomeIndexRoute: PublicHomeIndexRoute,
   PublicContactIndexRoute: PublicContactIndexRoute,
+  PublicGamesIndexRoute: PublicGamesIndexRoute,
   PublicOperationIndexRoute: PublicOperationIndexRoute,
   PublicPoliciesIndexRoute: PublicPoliciesIndexRoute,
   PublicSignInIndexRoute: PublicSignInIndexRoute,
