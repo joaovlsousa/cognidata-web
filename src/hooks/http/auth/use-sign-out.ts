@@ -9,11 +9,12 @@ export function useSignOut() {
 
   return useMutation({
     mutationFn: signOut,
-    onSuccess: () => {
+    onSuccess: (_, __, ___, ctx) => {
       cookies.remove('role', {
         path: '/',
       })
 
+      ctx.client.invalidateQueries({ queryKey: ['profile'] })
       navigate({ to: '/sign-in' })
     },
     onError: handleHttpError,
