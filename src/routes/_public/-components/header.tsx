@@ -15,7 +15,7 @@ export function Header() {
         <Navbar />
 
         <div className="flex gap-x-4">
-          <Link to={user.isAuthenticated ? '/app' : '/sign-in'}>
+          <Link to={user.isAuthenticated ? '/dashboard' : '/sign-in'}>
             <Button variant="outline" size="lg" className="px-6">
               Entrar
             </Button>

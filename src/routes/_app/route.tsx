@@ -4,7 +4,7 @@ import { useSignOut } from '@/hooks/http/auth/use-sign-out'
 import { useAuth } from '@/hooks/use-auth'
 import { Sidebar } from './-components/sidebar'
 
-export const Route = createFileRoute('/app')({
+export const Route = createFileRoute('/_app')({
   component: RouteComponent,
 })
 
