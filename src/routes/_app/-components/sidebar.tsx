@@ -14,7 +14,7 @@ const links = [
   },
   {
     label: 'Pacientes',
-    href: '/pacients',
+    href: '/patients',
     icon: UsersIcon,
   },
 ]

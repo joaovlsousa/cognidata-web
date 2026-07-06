@@ -19,6 +19,7 @@ import { Route as PublicOperationIndexRouteImport } from './routes/_public/opera
 import { Route as PublicGamesIndexRouteImport } from './routes/_public/games/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
 import { Route as PublicHomeIndexRouteImport } from './routes/_public/_home/index'
+import { Route as AppPatientsIndexRouteImport } from './routes/_app/patients/index'
 import { Route as AppDashboardIndexRouteImport } from './routes/_app/dashboard/index'
 
 const PublicRoute = PublicRouteImport.update({
@@ -69,6 +70,11 @@ const PublicHomeIndexRoute = PublicHomeIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PublicRoute,
 } as any)
+const AppPatientsIndexRoute = AppPatientsIndexRouteImport.update({
+  id: '/patients/',
+  path: '/patients/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppDashboardIndexRoute = AppDashboardIndexRouteImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
@@ -78,6 +84,7 @@ const AppDashboardIndexRoute = AppDashboardIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof PublicHomeIndexRoute
   '/dashboard/': typeof AppDashboardIndexRoute
+  '/patients/': typeof AppPatientsIndexRoute
   '/contact/': typeof PublicContactIndexRoute
   '/games/': typeof PublicGamesIndexRoute
   '/operation/': typeof PublicOperationIndexRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof PublicHomeIndexRoute
   '/dashboard': typeof AppDashboardIndexRoute
+  '/patients': typeof AppPatientsIndexRoute
   '/contact': typeof PublicContactIndexRoute
   '/games': typeof PublicGamesIndexRoute
   '/operation': typeof PublicOperationIndexRoute
@@ -102,6 +110,7 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/_app/dashboard/': typeof AppDashboardIndexRoute
+  '/_app/patients/': typeof AppPatientsIndexRoute
   '/_public/_home/': typeof PublicHomeIndexRoute
   '/_public/contact/': typeof PublicContactIndexRoute
   '/_public/games/': typeof PublicGamesIndexRoute
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard/'
+    | '/patients/'
     | '/contact/'
     | '/games/'
     | '/operation/'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/patients'
     | '/contact'
     | '/games'
     | '/operation'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/_app'
     | '/_public'
     | '/_app/dashboard/'
+    | '/_app/patients/'
     | '/_public/_home/'
     | '/_public/contact/'
     | '/_public/games/'
@@ -226,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicHomeIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_app/patients/': {
+      id: '/_app/patients/'
+      path: '/patients'
+      fullPath: '/patients/'
+      preLoaderRoute: typeof AppPatientsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_app/dashboard/': {
       id: '/_app/dashboard/'
       path: '/dashboard'
@@ -238,10 +257,12 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteRouteChildren {
   AppDashboardIndexRoute: typeof AppDashboardIndexRoute
+  AppPatientsIndexRoute: typeof AppPatientsIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardIndexRoute: AppDashboardIndexRoute,
+  AppPatientsIndexRoute: AppPatientsIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

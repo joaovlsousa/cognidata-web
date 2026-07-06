@@ -22,7 +22,7 @@ function RouteComponent() {
     <>
       <Sidebar />
       <div className="ml-72 w-full max-w-[calc(100%-18rem)]">
-        <main className="max-w-5xl mx-auto bg-primary/20">
+        <main className="max-w-5xl mx-auto py-6">
           <Outlet />
         </main>
       </div>
