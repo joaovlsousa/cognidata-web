@@ -21,6 +21,7 @@ import { Route as PublicContactIndexRouteImport } from './routes/_public/contact
 import { Route as PublicHomeIndexRouteImport } from './routes/_public/_home/index'
 import { Route as AppPatientsIndexRouteImport } from './routes/_app/patients/index'
 import { Route as AppDashboardIndexRouteImport } from './routes/_app/dashboard/index'
+import { Route as AppPatientsNewIndexRouteImport } from './routes/_app/patients/new/index'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -80,6 +81,11 @@ const AppDashboardIndexRoute = AppDashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppPatientsNewIndexRoute = AppPatientsNewIndexRouteImport.update({
+  id: '/patients/new/',
+  path: '/patients/new/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicHomeIndexRoute
@@ -92,6 +98,7 @@ export interface FileRoutesByFullPath {
   '/sign-in/': typeof PublicSignInIndexRoute
   '/sign-up/': typeof PublicSignUpIndexRoute
   '/terms/': typeof PublicTermsIndexRoute
+  '/patients/new/': typeof AppPatientsNewIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicHomeIndexRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/sign-in': typeof PublicSignInIndexRoute
   '/sign-up': typeof PublicSignUpIndexRoute
   '/terms': typeof PublicTermsIndexRoute
+  '/patients/new': typeof AppPatientsNewIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/_public/sign-in/': typeof PublicSignInIndexRoute
   '/_public/sign-up/': typeof PublicSignUpIndexRoute
   '/_public/terms/': typeof PublicTermsIndexRoute
+  '/_app/patients/new/': typeof AppPatientsNewIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/sign-in/'
     | '/sign-up/'
     | '/terms/'
+    | '/patients/new/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
     | '/sign-in'
     | '/sign-up'
     | '/terms'
+    | '/patients/new'
   id:
     | '__root__'
     | '/_app'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '/_public/sign-in/'
     | '/_public/sign-up/'
     | '/_public/terms/'
+    | '/_app/patients/new/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -252,17 +264,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/patients/new/': {
+      id: '/_app/patients/new/'
+      path: '/patients/new'
+      fullPath: '/patients/new/'
+      preLoaderRoute: typeof AppPatientsNewIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
 interface AppRouteRouteChildren {
   AppDashboardIndexRoute: typeof AppDashboardIndexRoute
   AppPatientsIndexRoute: typeof AppPatientsIndexRoute
+  AppPatientsNewIndexRoute: typeof AppPatientsNewIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardIndexRoute: AppDashboardIndexRoute,
   AppPatientsIndexRoute: AppPatientsIndexRoute,
+  AppPatientsNewIndexRoute: AppPatientsNewIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
