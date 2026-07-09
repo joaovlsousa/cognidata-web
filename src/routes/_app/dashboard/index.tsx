@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AppHeader } from '../patients/-components/app-header'
-import { MetadataSection } from '../patients/-components/metadata-section'
+import { AppHeader } from '../-components/app-header'
+import { MetadataSection } from '../-components/metadata-section'
 
 export const Route = createFileRoute('/_app/dashboard/')({
   component: RouteComponent,
