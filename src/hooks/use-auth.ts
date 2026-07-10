@@ -1,19 +1,24 @@
-import cookies from 'js-cookie'
-import { z } from 'zod'
-
-const userRoleSchema = z.enum(['admin', 'applicator'])
-type UserRole = z.infer<typeof userRoleSchema> | null
+import Cookies from 'js-cookie'
 
 export function useAuth() {
-  const { data } = userRoleSchema.safeParse(cookies.get('role'))
-  const role: UserRole = data ?? null
-
-  const user = {
-    role,
-    isAuthenticated: !!role,
+  function saveToken(token: string) {
+    Cookies.set('token', token, {
+      path: '/',
+      expires: 7,
+    })
   }
 
+  function clearToken() {
+    Cookies.remove('token', {
+      path: '/',
+    })
+  }
+
+  const token = Cookies.get('token') ? Cookies.get('token') : null
+
   return {
-    user,
+    token,
+    saveToken,
+    clearToken,
   }
 }

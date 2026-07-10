@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { Navbar } from './navbar'
 
 export function Header() {
-  const { user } = useAuth()
+  const { token } = useAuth()
 
   return (
     <header className="fixed w-full h-18 z-10 bg-background shadow border-b">
@@ -15,9 +15,9 @@ export function Header() {
         <Navbar />
 
         <div className="flex gap-x-4">
-          <Link to={user.isAuthenticated ? '/dashboard' : '/sign-in'}>
+          <Link to={token ? '/dashboard' : '/sign-in'}>
             <Button variant="outline" size="lg" className="px-6">
-              Entrar
+              {token ? 'Ir para o painel' : 'Entrar'}
             </Button>
           </Link>
           <Link to="/sign-up">

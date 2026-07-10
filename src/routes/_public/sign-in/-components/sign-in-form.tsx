@@ -50,7 +50,7 @@ export function SignInForm() {
       description: 'Login efetuado com sucesso',
     })
 
-    navigate({ to: '/app' })
+    navigate({ to: '/dashboard' })
   }
 
   return (

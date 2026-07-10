@@ -1,6 +1,5 @@
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet, useNavigate } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { useSignOut } from '@/hooks/http/auth/use-sign-out'
 import { useAuth } from '@/hooks/use-auth'
 import { Sidebar } from './-components/sidebar'
 
@@ -9,14 +8,14 @@ export const Route = createFileRoute('/_app')({
 })
 
 function RouteComponent() {
-  const { user } = useAuth()
-  const signOutMutation = useSignOut()
+  const { token } = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (!user.isAuthenticated) {
-      signOutMutation.mutate()
+    if (!token) {
+      navigate({ to: '/sign-in' })
     }
-  }, [user, signOutMutation])
+  }, [token, navigate])
 
   return (
     <>

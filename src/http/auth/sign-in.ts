@@ -6,7 +6,7 @@ export interface SignInRequest {
 }
 
 export interface SignInResponse {
-  userRole: 'admin' | 'applicator'
+  token: string
 }
 
 export async function signIn(payload: SignInRequest): Promise<SignInResponse> {
