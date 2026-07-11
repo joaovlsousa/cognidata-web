@@ -1,5 +1,4 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import { useNavigate } from '@tanstack/react-router'
 import {
   Calendar1Icon,
   CircleQuestionMarkIcon,
@@ -9,9 +8,8 @@ import {
   SchoolIcon,
   UserIcon,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 import { Loader } from '@/components/loader'
 import { Button } from '@/components/ui/button'
@@ -41,44 +39,32 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { useCreatePatient } from '@/hooks/http/patient/use-create-patient'
 import { cn, maskPhone } from '@/lib/utils'
 
-const patientSchema = z.object({
+const formSchema = z.object({
   name: z.string().min(1, 'Informe o nome do paciente'),
   dateOfBirth: z.date('Informe a data de nascimento').max(new Date()),
   gender: z.enum(['male', 'female'], 'Informe o gênero'),
-})
-
-const patientResponsibleSchema = z.object({
-  name: z.string().min(1, 'Informe o nome do responsável'),
-  kinship: z.enum(
+  patientResponsibleName: z.string().min(1, 'Informe o nome do responsável'),
+  patientResponsibleKinship: z.enum(
     ['father/mother', 'grandfather/grandmother', 'uncle/aunt'],
     'Informe o parentesco'
   ),
-  phone: z
+  patientResponsiblePhone: z
     .string()
     .transform((v) => v.replace(/\D/g, ''))
     .refine((v) => v.length === 11, 'Informe um número de telefone válido'),
-  email: z.email('Informe um email válido'),
-})
-
-const schoolSchema = z.object({
-  name: z.string().min(1, 'Informe o nome da escola'),
+  patientResponsibleEmail: z.email('Informe um email válido'),
+  schoolName: z.string().min(1, 'Informe o nome da escola'),
   schoolYear: z.number('Informe o ano escolar').min(1).max(6),
-  schedule: z.enum(['morning', 'afternoon', 'fullTime'], 'Informe o turno'),
-})
-
-const medicalSchema = z.object({
-  chiefComplaint: z.string().min(1, 'Informe a queixa principal do paciente'),
-  observations: z.string().transform((v) => (v?.length ? v : '')),
-})
-
-const formSchema = z.object({
-  patientSchema,
-  patientResponsibleSchema,
-  schoolSchema,
-  medicalSchema,
+  schoolSchedule: z.enum(
+    ['morning', 'afternoon', 'fullTime'],
+    'Informe o turno'
+  ),
+  medicalChiefComplaint: z
+    .string()
+    .min(1, 'Informe a queixa principal do paciente'),
+  medicalObservations: z.string().transform((v) => (v?.length ? v : '')),
 })
 
 type FormSchema = z.infer<typeof formSchema>
@@ -109,56 +95,40 @@ const scheduleOptions = {
   fullTime: 'Integral',
 }
 
-export function NewPatientForm() {
+interface SavePatientFormProps {
+  onSubmit: (values: FormSchema) => Promise<void>
+  defaultValues?: FormSchema
+}
+
+export function SavePatientForm({
+  onSubmit,
+  defaultValues,
+}: SavePatientFormProps) {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-  const navigate = useNavigate()
+  const [isPending, startTransition] = useTransition()
 
   const form = useForm<FormSchema>({
     resolver: standardSchemaResolver(formSchema),
     defaultValues: {
-      patientSchema: {
-        name: '',
-      },
-      patientResponsibleSchema: {
-        name: '',
-        email: '',
-        phone: '',
-      },
-      schoolSchema: {
-        name: '',
-      },
-      medicalSchema: {
-        chiefComplaint: '',
-        observations: '',
-      },
+      name: defaultValues?.name ?? '',
+      dateOfBirth: defaultValues?.dateOfBirth,
+      gender: defaultValues?.gender,
+      patientResponsibleName: defaultValues?.patientResponsibleName ?? '',
+      patientResponsibleEmail: defaultValues?.patientResponsibleEmail ?? '',
+      patientResponsibleKinship: defaultValues?.patientResponsibleKinship,
+      patientResponsiblePhone: defaultValues?.patientResponsiblePhone ?? '',
+      schoolName: defaultValues?.schoolName ?? '',
+      schoolYear: defaultValues?.schoolYear,
+      schoolSchedule: defaultValues?.schoolSchedule,
+      medicalChiefComplaint: defaultValues?.medicalChiefComplaint ?? '',
+      medicalObservations: defaultValues?.medicalObservations ?? '',
     },
   })
 
-  const createPatientMutation = useCreatePatient()
-
-  async function handleSubmit(values: FormSchema) {
-    const dateOfBirth = values.patientSchema.dateOfBirth.toISOString().split('T')[0]
-
-    await createPatientMutation.mutateAsync({
-      dateOfBirth,
-      name: values.patientSchema.name,
-      gender: values.patientSchema.gender,
-      patientResponsibleName: values.patientResponsibleSchema.name,
-      patientResponsibleEmail: values.patientResponsibleSchema.email,
-      patientResponsibleKinship: values.patientResponsibleSchema.kinship,
-      patientResponsiblePhone: values.patientResponsibleSchema.phone,
-      schoolName: values.schoolSchema.name,
-      schoolYear: values.schoolSchema.schoolYear,
-      schoolSchedule: values.schoolSchema.schedule,
-      medicalChiefComplaint: values.medicalSchema.chiefComplaint,
-      medicalObservations: values.medicalSchema.observations,
+  function handleSubmit(values: FormSchema) {
+    startTransition(async () => {
+      await onSubmit(values)
     })
-
-    toast.success('Sucesso', {
-      description: 'Paciente salvo com sucesso',
-    })
-
-    navigate({ to: '/patients' })
   }
 
   return (
@@ -176,13 +146,11 @@ export function NewPatientForm() {
         <CardContent>
           <FieldGroup className="grid grid-cols-[60%_1fr]">
             <Controller
-              name="patientSchema.name"
+              name="name"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="patientSchema.name">
-                    Nome completo
-                  </FieldLabel>
+                  <FieldLabel htmlFor="name">Nome completo</FieldLabel>
                   <InputGroup>
                     <InputGroupInput
                       {...field}
@@ -203,11 +171,11 @@ export function NewPatientForm() {
             />
 
             <Controller
-              name="patientSchema.dateOfBirth"
+              name="dateOfBirth"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="patientSchema.dateOfBirth">
+                  <FieldLabel htmlFor="dateOfBirth">
                     Data de nascimento
                   </FieldLabel>
                   <Popover
@@ -257,11 +225,11 @@ export function NewPatientForm() {
             />
 
             <Controller
-              name="patientSchema.gender"
+              name="gender"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid} className="max-w-1/2">
-                  <FieldLabel htmlFor="patientSchema.gender">Gênero</FieldLabel>
+                  <FieldLabel htmlFor="gender">Gênero</FieldLabel>
                   <Select
                     items={genderOptions}
                     name={field.name}
@@ -269,7 +237,7 @@ export function NewPatientForm() {
                     onValueChange={field.onChange}
                   >
                     <SelectTrigger
-                      id="patientSchema.gender"
+                      id="gender"
                       aria-invalid={fieldState.invalid}
                     >
                       <SelectValue placeholder="Selecione o gênero" />
@@ -302,11 +270,11 @@ export function NewPatientForm() {
         <CardContent>
           <FieldGroup className="grid grid-cols-[60%_1fr]">
             <Controller
-              name="patientResponsibleSchema.name"
+              name="patientResponsibleName"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="patientResponsibleSchema.name">
+                  <FieldLabel htmlFor="patientResponsibleName">
                     Nome completo
                   </FieldLabel>
                   <InputGroup>
@@ -328,11 +296,11 @@ export function NewPatientForm() {
               )}
             />
             <Controller
-              name="patientResponsibleSchema.kinship"
+              name="patientResponsibleKinship"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="patientResponsibleSchema.kinship">
+                  <FieldLabel htmlFor="patientResponsibleKinship">
                     Parentesco
                   </FieldLabel>
                   <Select
@@ -342,7 +310,7 @@ export function NewPatientForm() {
                     onValueChange={field.onChange}
                   >
                     <SelectTrigger
-                      id="patientResponsibleSchema.kinship"
+                      id="patientResponsibleKinship"
                       aria-invalid={fieldState.invalid}
                     >
                       <SelectValue placeholder="Selecione uma opção" />
@@ -363,11 +331,11 @@ export function NewPatientForm() {
             />
 
             <Controller
-              name="patientResponsibleSchema.email"
+              name="patientResponsibleEmail"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="patientResponsibleSchema.email">
+                  <FieldLabel htmlFor="patientResponsibleEmail">
                     Email do responsável
                   </FieldLabel>
                   <InputGroup>
@@ -390,11 +358,11 @@ export function NewPatientForm() {
             />
 
             <Controller
-              name="patientResponsibleSchema.phone"
+              name="patientResponsiblePhone"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="patientResponsibleSchema.phone">
+                  <FieldLabel htmlFor="patientResponsiblePhone">
                     Telefone do responsável
                   </FieldLabel>
                   <InputGroup>
@@ -433,13 +401,11 @@ export function NewPatientForm() {
         <CardContent>
           <FieldGroup className="grid grid-cols-[50%_1fr_1fr]">
             <Controller
-              name="schoolSchema.name"
+              name="schoolName"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="schoolSchema.name">
-                    Nome da escola
-                  </FieldLabel>
+                  <FieldLabel htmlFor="schoolName">Nome da escola</FieldLabel>
                   <InputGroup>
                     <InputGroupInput
                       {...field}
@@ -460,13 +426,11 @@ export function NewPatientForm() {
             />
 
             <Controller
-              name="schoolSchema.schoolYear"
+              name="schoolYear"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="schoolSchema.schoolYear">
-                    Ano escolar
-                  </FieldLabel>
+                  <FieldLabel htmlFor="schoolYear">Ano escolar</FieldLabel>
                   <Select
                     items={schoolYearOptions}
                     name={field.name}
@@ -474,7 +438,7 @@ export function NewPatientForm() {
                     onValueChange={field.onChange}
                   >
                     <SelectTrigger
-                      id="schoolSchema.schoolYear"
+                      id="schoolYear"
                       aria-invalid={fieldState.invalid}
                     >
                       <SelectValue placeholder="Selecione uma opção" />
@@ -482,7 +446,7 @@ export function NewPatientForm() {
                     <SelectContent>
                       {Array.from({ length: 6 }).map((_, idx) => (
                         <SelectItem
-                          key={`schoolSchema.schoolYear-${
+                          key={`schoolNchoolYear-${
                             // biome-ignore lint/suspicious/noArrayIndexKey: <>
                             idx + 1
                           }`}
@@ -501,11 +465,11 @@ export function NewPatientForm() {
             />
 
             <Controller
-              name="schoolSchema.schedule"
+              name="schoolSchedule"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="schoolSchema.schedule">Turno</FieldLabel>
+                  <FieldLabel htmlFor="schoolSchedule">Turno</FieldLabel>
                   <Select
                     items={scheduleOptions}
                     name={field.name}
@@ -513,7 +477,7 @@ export function NewPatientForm() {
                     onValueChange={field.onChange}
                   >
                     <SelectTrigger
-                      id="schoolSchema.schedule"
+                      id="schoolSchedule"
                       aria-invalid={fieldState.invalid}
                     >
                       <SelectValue placeholder="Selecione uma opção" />
@@ -547,11 +511,11 @@ export function NewPatientForm() {
         <CardContent>
           <FieldGroup>
             <Controller
-              name="medicalSchema.chiefComplaint"
+              name="medicalChiefComplaint"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="medicalSchema.chiefComplaint">
+                  <FieldLabel htmlFor="medicalChiefComplaint">
                     Queixa principal
                   </FieldLabel>
                   <InputGroup>
@@ -574,11 +538,11 @@ export function NewPatientForm() {
             />
 
             <Controller
-              name="medicalSchema.observations"
+              name="medicalObservations"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="medicalSchema.observations">
+                  <FieldLabel htmlFor="medicalObservations">
                     Observações iniciais
                   </FieldLabel>
                   <Textarea
@@ -598,18 +562,9 @@ export function NewPatientForm() {
         </CardContent>
       </Card>
 
-      <Button
-        type="submit"
-        size="lg"
-        disabled={createPatientMutation.isPending}
-        className="px-6"
-      >
-        {createPatientMutation.isPending ? <Loader /> : <SaveIcon />}
-        <span>
-          {createPatientMutation.isPending
-            ? 'Salvando paciente'
-            : 'Salvar e continuar'}
-        </span>
+      <Button type="submit" size="lg" disabled={isPending} className="px-6">
+        {isPending ? <Loader /> : <SaveIcon />}
+        <span>{isPending ? 'Salvando paciente' : 'Salvar e continuar'}</span>
       </Button>
     </form>
   )

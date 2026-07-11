@@ -122,7 +122,10 @@ export function PatientsTable() {
                       </DropdownMenuItem>
                     </Link>
 
-                    <Link to="/patients">
+                    <Link
+                      to="/patients/$patientId/edit"
+                      params={{ patientId: patient.id }}
+                    >
                       <DropdownMenuItem>
                         <SquarePenIcon className="text-primary hover:text-primary" />
                         <span>Atualizar dados</span>
