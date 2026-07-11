@@ -1,4 +1,5 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
+import { useNavigate } from '@tanstack/react-router'
 import {
   Calendar1Icon,
   CircleQuestionMarkIcon,
@@ -12,6 +13,7 @@ import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { Loader } from '@/components/loader'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -39,6 +41,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { useCreatePatient } from '@/hooks/http/patient/use-create-patient'
 import { cn, maskPhone } from '@/lib/utils'
 
 const patientSchema = z.object({
@@ -108,6 +111,7 @@ const scheduleOptions = {
 
 export function NewPatientForm() {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  const navigate = useNavigate()
 
   const form = useForm<FormSchema>({
     resolver: standardSchemaResolver(formSchema),
@@ -130,15 +134,31 @@ export function NewPatientForm() {
     },
   })
 
+  const createPatientMutation = useCreatePatient()
+
   async function handleSubmit(values: FormSchema) {
-    await new Promise((resolve) => {
-      setTimeout(resolve, 3000)
+    const dateOfBirth = values.patientSchema.dateOfBirth.toISOString().split('T')[0]
+
+    await createPatientMutation.mutateAsync({
+      dateOfBirth,
+      name: values.patientSchema.name,
+      gender: values.patientSchema.gender,
+      patientResponsibleName: values.patientResponsibleSchema.name,
+      patientResponsibleEmail: values.patientResponsibleSchema.email,
+      patientResponsibleKinship: values.patientResponsibleSchema.kinship,
+      patientResponsiblePhone: values.patientResponsibleSchema.phone,
+      schoolName: values.schoolSchema.name,
+      schoolYear: values.schoolSchema.schoolYear,
+      schoolSchedule: values.schoolSchema.schedule,
+      medicalChiefComplaint: values.medicalSchema.chiefComplaint,
+      medicalObservations: values.medicalSchema.observations,
     })
 
-    console.log(values)
     toast.success('Sucesso', {
       description: 'Paciente salvo com sucesso',
     })
+
+    navigate({ to: '/patients' })
   }
 
   return (
@@ -578,9 +598,18 @@ export function NewPatientForm() {
         </CardContent>
       </Card>
 
-      <Button type="submit" size="lg" className="px-6">
-        <SaveIcon />
-        <span>Salvar e continuar</span>
+      <Button
+        type="submit"
+        size="lg"
+        disabled={createPatientMutation.isPending}
+        className="px-6"
+      >
+        {createPatientMutation.isPending ? <Loader /> : <SaveIcon />}
+        <span>
+          {createPatientMutation.isPending
+            ? 'Salvando paciente'
+            : 'Salvar e continuar'}
+        </span>
       </Button>
     </form>
   )
