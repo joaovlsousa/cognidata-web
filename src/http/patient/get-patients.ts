@@ -1,5 +1,12 @@
 import { api } from '@/lib/axios'
 
+export interface GetPatientsRequest {
+  page: number
+  perPage: number
+  status: string
+  name?: string
+}
+
 export interface GetPatientsResponse {
   patients: {
     id: string
@@ -21,10 +28,28 @@ export interface GetPatientsResponse {
     medicalObservations: string | null
     createdAt: string
   }[]
+  meta: {
+    page: number
+    perPage: number
+    total: number
+    totalPages: number
+  }
 }
 
-export async function getPatients(): Promise<GetPatientsResponse> {
-  const response = await api.get<GetPatientsResponse>('/patients')
+export async function getPatients({
+  page,
+  perPage,
+  status,
+  name,
+}: GetPatientsRequest): Promise<GetPatientsResponse> {
+  const response = await api.get<GetPatientsResponse>('/patients', {
+    params: {
+      page,
+      perPage,
+      status,
+      name: name ?? undefined,
+    },
+  })
 
   return response.data
 }
