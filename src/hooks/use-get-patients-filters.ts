@@ -4,6 +4,7 @@ import {
   parseAsStringEnum,
   useQueryStates,
 } from 'nuqs'
+import { useTransition } from 'react'
 
 export const patientsSearchParams = {
   page: parseAsInteger.withDefault(1),
@@ -15,7 +16,10 @@ export const patientsSearchParams = {
 }
 
 export function useGetPatientsFilters() {
-  const [filters, setFilters] = useQueryStates(patientsSearchParams)
+  const [isPending, startTransition] = useTransition()
+  const [filters, setFilters] = useQueryStates(patientsSearchParams, {
+    startTransition,
+  })
 
   function handleSetName(name: string | null) {
     setFilters({
@@ -26,5 +30,5 @@ export function useGetPatientsFilters() {
     })
   }
 
-  return { filters, setFilters, handleSetName }
+  return { filters, setFilters, handleSetName, isPending }
 }

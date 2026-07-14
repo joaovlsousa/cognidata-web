@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
+import { useGetPatientsFilters } from '@/hooks/use-get-patients-filters'
 import {
   type DeletePatientRequest,
   deletePatient,
@@ -6,12 +7,13 @@ import {
 import { handleHttpError } from '../_errors/handle-http-error'
 
 export function useDeletePatient() {
+  const { filters } = useGetPatientsFilters()
+
   return useMutation({
     mutationFn: (payload: DeletePatientRequest) => deletePatient(payload),
     onSuccess: (_data, variables, _onMutateResult, context) => {
       context.client.invalidateQueries({
-        queryKey: ['patients'],
-        exact: true,
+        queryKey: ['patients', filters],
       })
 
       context.client.invalidateQueries({

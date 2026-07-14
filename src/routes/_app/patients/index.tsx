@@ -1,8 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Suspense } from 'react'
 import { AppHeader } from '../-components/app-header'
 import { MetadataSection } from '../-components/metadata-section'
 import { PatientsTable } from './-components/patients-table'
 import { PatientsTableFilters } from './-components/patients-table-filters'
+import { PatientsTableFiltersDisabled } from './-components/patients-table-filters-disabled'
+import { PatientsTableSkeleton } from './-components/patients-table-skeleton'
 
 export const Route = createFileRoute('/_app/patients/')({
   component: RouteComponent,
@@ -20,9 +23,18 @@ function RouteComponent() {
       <MetadataSection />
 
       <section className="rounded-xl border shadow-md">
-        <PatientsTableFilters />
+        <Suspense
+          fallback={
+            <>
+              <PatientsTableFiltersDisabled />
+              <PatientsTableSkeleton />
+            </>
+          }
+        >
+          <PatientsTableFilters />
 
-        <PatientsTable />
+          <PatientsTable />
+        </Suspense>
       </section>
     </div>
   )
