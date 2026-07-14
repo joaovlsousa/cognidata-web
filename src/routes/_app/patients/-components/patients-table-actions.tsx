@@ -79,7 +79,10 @@ export function PatientsTableActions({ patient }: PatientsTableActionsProps) {
             <DropdownMenuGroup>
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
 
-              <Link to="/patients">
+              <Link
+                to="/patients/$patientId"
+                params={{ patientId: patient.id }}
+              >
                 <DropdownMenuItem>
                   <InfoIcon className="text-primary hover:text-primary" />
                   <span>Detalhes do paciente</span>
