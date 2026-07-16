@@ -7,7 +7,7 @@ import { queryClient } from '@/lib/query-client'
 const RootLayout = () => (
   <QueryClientProvider client={queryClient}>
     <NuqsAdapter>
-      <div className="min-h-full flex flex-col antialiased">
+      <div className="min-h-full flex flex-col">
         <Outlet />
       </div>
 
