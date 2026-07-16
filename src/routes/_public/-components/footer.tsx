@@ -19,7 +19,7 @@ export function Footer() {
             geram insights que transformam vidas.
           </p>
           <p className="text-sm text-muted-foreground font-medium">
-            &copy; {new Date().getFullYear()} PsicoHub. Todos os direitos
+            &copy; {new Date().getFullYear()} CogniDataHub. Todos os direitos
             reservados.
           </p>
         </section>

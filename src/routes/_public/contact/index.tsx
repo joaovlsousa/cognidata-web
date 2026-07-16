@@ -18,7 +18,7 @@ function RouteComponent() {
     <section className="grid grid-cols-2 gap-x-10">
       <div className="space-y-6">
         <h2 className="text-5xl font-bold leading-tight">
-          Fale com a equipe do PsicoHub
+          Fale com a equipe do CogniDataHub
         </h2>
         <p className="pr-16 font-medium text-muted-foreground leading-relaxed text-justify">
           Estamos aqui para apoiar psicólogos, clínicas e instituições com
@@ -31,7 +31,7 @@ function RouteComponent() {
           <InfoCard
             icon={MonitorPlayIcon}
             title="Demonstração da plataforma"
-            description="Conheça de perto os recursos do PsicoHub com um especialista"
+            description="Conheça de perto os recursos do CogniDataHub com um especialista"
           />
           <InfoCard
             icon={HeadsetIcon}

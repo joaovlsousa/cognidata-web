@@ -23,9 +23,9 @@ function RouteComponent() {
           Solicite acesso a plataforma
         </h2>
         <p className="pr-16 font-medium text-muted-foreground leading-relaxed text-justify">
-          O PsicoHub é uma plataforma para psicólogos e clinicas psicológicas
-          que utilizam avaliações psicométricas e jogos educativos com
-          embasamento cientifico, segurança e praticidade.
+          O CogniDataHub é uma plataforma para psicólogos e clinicas
+          psicológicas que utilizam avaliações psicométricas e jogos educativos
+          com embasamento cientifico, segurança e praticidade.
         </p>
         <h3 className="text-2xl font-bold">Quem pode solicitar acesso?</h3>
 

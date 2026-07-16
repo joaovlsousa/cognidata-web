@@ -22,10 +22,10 @@ function RouteComponent() {
             Avaliação psicométrica com dados que apoiam decisões clínicas
           </h2>
           <p className="pr-7 font-medium text-muted-foreground leading-relaxed text-justify">
-            O PsicoHub é um ambiente completo que centraliza avaliações, jogos
-            educativos, indicadores psicométricos e relatórios completos para
-            psicólogos que buscam precisão, eficiência e mais segurança em suas
-            decisões.
+            O CogniDataHub é um ambiente completo que centraliza avaliações,
+            jogos educativos, indicadores psicométricos e relatórios completos
+            para psicólogos que buscam precisão, eficiência e mais segurança em
+            suas decisões.
           </p>
 
           <div className="space-x-3">
@@ -111,7 +111,7 @@ function RouteComponent() {
           <p className="text-sm font-medium text-muted-foreground">
             O jogo transforma a avaliação em uma jomada envolvente no universo
             de Niridia e envia os dados psicométricos diretamente para o
-            PsicoHub.
+            CogniDataHub.
           </p>
           <Link to="/games" className="w-fit">
             <Button size="lg" className="px-6">

@@ -278,7 +278,7 @@ export function SignUpForm({ onSubmitSuccess }: SignUpFormProps) {
               <Link to="/policies" className="text-primary">
                 Política de privacidade
               </Link>{' '}
-              do PsicoHub.
+              do CogniDataHub.
             </FieldLabel>
           </Field>
 
