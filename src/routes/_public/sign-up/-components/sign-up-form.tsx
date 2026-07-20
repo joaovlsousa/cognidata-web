@@ -275,7 +275,7 @@ export function SignUpForm({ onSubmitSuccess }: SignUpFormProps) {
                 Termos de uso
               </Link>{' '}
               e a{' '}
-              <Link to="/policies" className="text-primary">
+              <Link to="/privacy" className="text-primary">
                 Política de privacidade
               </Link>{' '}
               do CogniDataHub.

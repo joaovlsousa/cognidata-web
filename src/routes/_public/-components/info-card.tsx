@@ -27,7 +27,9 @@ export function InfoCard({
           <Icon className="size-6 text-primary" />
         </div>
         <CardTitle className="text-lg">{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription className="leading-relaxed">
+          {description}
+        </CardDescription>
       </CardHeader>
 
       {children && <CardContent>{children}</CardContent>}

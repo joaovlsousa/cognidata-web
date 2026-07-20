@@ -14,7 +14,7 @@ import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as PublicTermsIndexRouteImport } from './routes/_public/terms/index'
 import { Route as PublicSignUpIndexRouteImport } from './routes/_public/sign-up/index'
 import { Route as PublicSignInIndexRouteImport } from './routes/_public/sign-in/index'
-import { Route as PublicPoliciesIndexRouteImport } from './routes/_public/policies/index'
+import { Route as PublicPrivacyIndexRouteImport } from './routes/_public/privacy/index'
 import { Route as PublicOperationIndexRouteImport } from './routes/_public/operation/index'
 import { Route as PublicGamesIndexRouteImport } from './routes/_public/games/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
@@ -48,9 +48,9 @@ const PublicSignInIndexRoute = PublicSignInIndexRouteImport.update({
   path: '/sign-in/',
   getParentRoute: () => PublicRoute,
 } as any)
-const PublicPoliciesIndexRoute = PublicPoliciesIndexRouteImport.update({
-  id: '/policies/',
-  path: '/policies/',
+const PublicPrivacyIndexRoute = PublicPrivacyIndexRouteImport.update({
+  id: '/privacy/',
+  path: '/privacy/',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicOperationIndexRoute = PublicOperationIndexRouteImport.update({
@@ -108,7 +108,7 @@ export interface FileRoutesByFullPath {
   '/contact/': typeof PublicContactIndexRoute
   '/games/': typeof PublicGamesIndexRoute
   '/operation/': typeof PublicOperationIndexRoute
-  '/policies/': typeof PublicPoliciesIndexRoute
+  '/privacy/': typeof PublicPrivacyIndexRoute
   '/sign-in/': typeof PublicSignInIndexRoute
   '/sign-up/': typeof PublicSignUpIndexRoute
   '/terms/': typeof PublicTermsIndexRoute
@@ -123,7 +123,7 @@ export interface FileRoutesByTo {
   '/contact': typeof PublicContactIndexRoute
   '/games': typeof PublicGamesIndexRoute
   '/operation': typeof PublicOperationIndexRoute
-  '/policies': typeof PublicPoliciesIndexRoute
+  '/privacy': typeof PublicPrivacyIndexRoute
   '/sign-in': typeof PublicSignInIndexRoute
   '/sign-up': typeof PublicSignUpIndexRoute
   '/terms': typeof PublicTermsIndexRoute
@@ -141,7 +141,7 @@ export interface FileRoutesById {
   '/_public/contact/': typeof PublicContactIndexRoute
   '/_public/games/': typeof PublicGamesIndexRoute
   '/_public/operation/': typeof PublicOperationIndexRoute
-  '/_public/policies/': typeof PublicPoliciesIndexRoute
+  '/_public/privacy/': typeof PublicPrivacyIndexRoute
   '/_public/sign-in/': typeof PublicSignInIndexRoute
   '/_public/sign-up/': typeof PublicSignUpIndexRoute
   '/_public/terms/': typeof PublicTermsIndexRoute
@@ -158,7 +158,7 @@ export interface FileRouteTypes {
     | '/contact/'
     | '/games/'
     | '/operation/'
-    | '/policies/'
+    | '/privacy/'
     | '/sign-in/'
     | '/sign-up/'
     | '/terms/'
@@ -173,7 +173,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/games'
     | '/operation'
-    | '/policies'
+    | '/privacy'
     | '/sign-in'
     | '/sign-up'
     | '/terms'
@@ -190,7 +190,7 @@ export interface FileRouteTypes {
     | '/_public/contact/'
     | '/_public/games/'
     | '/_public/operation/'
-    | '/_public/policies/'
+    | '/_public/privacy/'
     | '/_public/sign-in/'
     | '/_public/sign-up/'
     | '/_public/terms/'
@@ -241,11 +241,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSignInIndexRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_public/policies/': {
-      id: '/_public/policies/'
-      path: '/policies'
-      fullPath: '/policies/'
-      preLoaderRoute: typeof PublicPoliciesIndexRouteImport
+    '/_public/privacy/': {
+      id: '/_public/privacy/'
+      path: '/privacy'
+      fullPath: '/privacy/'
+      preLoaderRoute: typeof PublicPrivacyIndexRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/operation/': {
@@ -339,7 +339,7 @@ interface PublicRouteChildren {
   PublicContactIndexRoute: typeof PublicContactIndexRoute
   PublicGamesIndexRoute: typeof PublicGamesIndexRoute
   PublicOperationIndexRoute: typeof PublicOperationIndexRoute
-  PublicPoliciesIndexRoute: typeof PublicPoliciesIndexRoute
+  PublicPrivacyIndexRoute: typeof PublicPrivacyIndexRoute
   PublicSignInIndexRoute: typeof PublicSignInIndexRoute
   PublicSignUpIndexRoute: typeof PublicSignUpIndexRoute
   PublicTermsIndexRoute: typeof PublicTermsIndexRoute
@@ -350,7 +350,7 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicContactIndexRoute: PublicContactIndexRoute,
   PublicGamesIndexRoute: PublicGamesIndexRoute,
   PublicOperationIndexRoute: PublicOperationIndexRoute,
-  PublicPoliciesIndexRoute: PublicPoliciesIndexRoute,
+  PublicPrivacyIndexRoute: PublicPrivacyIndexRoute,
   PublicSignInIndexRoute: PublicSignInIndexRoute,
   PublicSignUpIndexRoute: PublicSignUpIndexRoute,
   PublicTermsIndexRoute: PublicTermsIndexRoute,

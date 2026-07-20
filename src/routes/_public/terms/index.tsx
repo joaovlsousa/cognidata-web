@@ -10,7 +10,8 @@ import {
 import { Fragment } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { terms } from './-data'
+import { InfoCard } from '../-components/info-card'
+import { termsOfUse } from './-data'
 
 export const Route = createFileRoute('/_public/terms/')({
   component: RouteComponent,
@@ -29,15 +30,15 @@ function RouteComponent() {
       </section>
 
       <section className="flex justify-between gap-x-6">
-        <div className="relative space-y-6">
-          <Card className="sticky top-28 max-w-72">
+        <div className="relative max-w-72 space-y-6">
+          <Card className="sticky top-28">
             <CardContent className="space-y-6">
               <div className="flex items-center gap-x-3">
                 <ListIcon className="size-4 text-primary" />
                 <h5 className="text-base font-bold">Neste documento</h5>
               </div>
 
-              {terms.map((term, index) => (
+              {termsOfUse.map((term, index) => (
                 <Link
                   key={term.title}
                   to="."
@@ -57,11 +58,11 @@ function RouteComponent() {
 
         <Card className="flex-1">
           <CardContent className="space-y-6">
-            {terms.map((term, index) => (
+            {termsOfUse.map((term, index) => (
               <Fragment key={term.title}>
                 <div id={`item-${index + 1}`} className="flex gap-x-3">
-                  <div className="grid place-items-center size-14 shrink-0 rounded-full bg-primary/10">
-                    <term.icon className="size-7 text-primary" />
+                  <div className="mt-0.75 grid place-items-center size-10 shrink-0 rounded-md ring ring-primary bg-primary/10">
+                    <term.icon className="size-6 text-primary" />
                   </div>
 
                   <div>
@@ -74,22 +75,22 @@ function RouteComponent() {
                   </div>
                 </div>
 
-                {index !== terms.length - 1 && <Separator />}
+                {index !== termsOfUse.length - 1 && <Separator />}
               </Fragment>
             ))}
           </CardContent>
         </Card>
 
-        <div className="space-y-6">
-          <Card className="max-w-72">
+        <div className="max-w-72 space-y-6">
+          <Card>
             <CardContent className="space-y-3">
-              <div className="flex gap-x-3">
-                <div className="grid place-items-center size-12 shrink-0 rounded-full bg-primary/10">
+              <div className="flex items-center gap-x-3">
+                <div className="grid place-items-center size-10 shrink-0 rounded-md ring ring-primary bg-primary/10">
                   <CalendarSyncIcon className="size-6 text-primary" />
                 </div>
 
                 <div>
-                  <h5 className="text-base font-bold">Última atualização</h5>
+                  <h5 className="text-base font-medium">Última atualização</h5>
                   <p className="text-sm font-medium text-primary">
                     {format(new Date('2026-07-16'), `dd 'de' MMMM 'de' yyyy`, {
                       locale: ptBR,
@@ -107,41 +108,23 @@ function RouteComponent() {
             </CardContent>
           </Card>
 
-          <Card className="max-w-72">
-            <CardContent className="flex flex-col items-center justify-center gap-y-3">
-              <div className="grid place-items-center size-14 shrink-0 rounded-full bg-primary/10">
-                <ShieldCheckIcon className="size-7 text-primary" />
-              </div>
-
-              <h5 className="text-lg font-bold text-center">
-                Compromisso com a ética e a segurança
-              </h5>
-              <p className="text-justify leading-relaxed text-muted-foreground">
-                Nosso compromisso é oferecer tecnologia confiável e segura para
+          <InfoCard
+            icon={ShieldCheckIcon}
+            title="Compromisso com a ética e a segurança"
+            description="Nosso compromisso é oferecer tecnologia confiável e segura para
                 apoiar decisões clínicas responsáveis e centradas nas pessoas.
                 Conte com a gente para impulsionar sua prática com ética,
-                eficiência e respeito.
-              </p>
-            </CardContent>
-          </Card>
+                eficiência e respeito."
+          />
 
-          <Card className="max-w-72">
-            <CardContent className="flex flex-col items-center justify-center gap-y-3">
-              <div className="grid place-items-center size-14 shrink-0 rounded-full bg-primary/10">
-                <UsersIcon className="size-7 text-primary" />
-              </div>
-
-              <h5 className="text-lg font-bold text-center">
-                Uso responsável e profissional
-              </h5>
-              <p className="text-justify leading-relaxed text-muted-foreground">
-                O CognitDataHub é uma plataforma desenvolvida exclusivamente
+          <InfoCard
+            icon={UsersIcon}
+            title="Uso responsável e profissional"
+            description="O CognitDataHub é uma plataforma desenvolvida exclusivamente
                 para psicólogos e clínicas. Seu uso deve ser ético, responsável
                 e alinhado às boas práticas da Psicologia e à legislação
-                vigente.
-              </p>
-            </CardContent>
-          </Card>
+                vigente."
+          />
         </div>
       </section>
     </div>

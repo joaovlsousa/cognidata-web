@@ -58,7 +58,7 @@ export function Footer() {
             </li>
 
             <li>
-              <Link to="/policies" className="flex items-center gap-x-2">
+              <Link to="/privacy" className="flex items-center gap-x-2">
                 <ListChecksIcon className="size-4" />
                 <span>Políticas de privacidade</span>
               </Link>
