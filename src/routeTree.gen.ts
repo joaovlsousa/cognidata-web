@@ -17,6 +17,7 @@ import { Route as PublicSignInIndexRouteImport } from './routes/_public/sign-in/
 import { Route as PublicPrivacyIndexRouteImport } from './routes/_public/privacy/index'
 import { Route as PublicOperationIndexRouteImport } from './routes/_public/operation/index'
 import { Route as PublicGamesIndexRouteImport } from './routes/_public/games/index'
+import { Route as PublicForgotPasswordIndexRouteImport } from './routes/_public/forgot-password/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
 import { Route as PublicHomeIndexRouteImport } from './routes/_public/_home/index'
 import { Route as AppPatientsIndexRouteImport } from './routes/_app/patients/index'
@@ -63,6 +64,12 @@ const PublicGamesIndexRoute = PublicGamesIndexRouteImport.update({
   path: '/games/',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicForgotPasswordIndexRoute =
+  PublicForgotPasswordIndexRouteImport.update({
+    id: '/forgot-password/',
+    path: '/forgot-password/',
+    getParentRoute: () => PublicRoute,
+  } as any)
 const PublicContactIndexRoute = PublicContactIndexRouteImport.update({
   id: '/contact/',
   path: '/contact/',
@@ -106,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof AppDashboardIndexRoute
   '/patients/': typeof AppPatientsIndexRoute
   '/contact/': typeof PublicContactIndexRoute
+  '/forgot-password/': typeof PublicForgotPasswordIndexRoute
   '/games/': typeof PublicGamesIndexRoute
   '/operation/': typeof PublicOperationIndexRoute
   '/privacy/': typeof PublicPrivacyIndexRoute
@@ -121,6 +129,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardIndexRoute
   '/patients': typeof AppPatientsIndexRoute
   '/contact': typeof PublicContactIndexRoute
+  '/forgot-password': typeof PublicForgotPasswordIndexRoute
   '/games': typeof PublicGamesIndexRoute
   '/operation': typeof PublicOperationIndexRoute
   '/privacy': typeof PublicPrivacyIndexRoute
@@ -139,6 +148,7 @@ export interface FileRoutesById {
   '/_app/patients/': typeof AppPatientsIndexRoute
   '/_public/_home/': typeof PublicHomeIndexRoute
   '/_public/contact/': typeof PublicContactIndexRoute
+  '/_public/forgot-password/': typeof PublicForgotPasswordIndexRoute
   '/_public/games/': typeof PublicGamesIndexRoute
   '/_public/operation/': typeof PublicOperationIndexRoute
   '/_public/privacy/': typeof PublicPrivacyIndexRoute
@@ -156,6 +166,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/patients/'
     | '/contact/'
+    | '/forgot-password/'
     | '/games/'
     | '/operation/'
     | '/privacy/'
@@ -171,6 +182,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/patients'
     | '/contact'
+    | '/forgot-password'
     | '/games'
     | '/operation'
     | '/privacy'
@@ -188,6 +200,7 @@ export interface FileRouteTypes {
     | '/_app/patients/'
     | '/_public/_home/'
     | '/_public/contact/'
+    | '/_public/forgot-password/'
     | '/_public/games/'
     | '/_public/operation/'
     | '/_public/privacy/'
@@ -260,6 +273,13 @@ declare module '@tanstack/react-router' {
       path: '/games'
       fullPath: '/games/'
       preLoaderRoute: typeof PublicGamesIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/forgot-password/': {
+      id: '/_public/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/forgot-password/'
+      preLoaderRoute: typeof PublicForgotPasswordIndexRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/contact/': {
@@ -337,6 +357,7 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 interface PublicRouteChildren {
   PublicHomeIndexRoute: typeof PublicHomeIndexRoute
   PublicContactIndexRoute: typeof PublicContactIndexRoute
+  PublicForgotPasswordIndexRoute: typeof PublicForgotPasswordIndexRoute
   PublicGamesIndexRoute: typeof PublicGamesIndexRoute
   PublicOperationIndexRoute: typeof PublicOperationIndexRoute
   PublicPrivacyIndexRoute: typeof PublicPrivacyIndexRoute
@@ -348,6 +369,7 @@ interface PublicRouteChildren {
 const PublicRouteChildren: PublicRouteChildren = {
   PublicHomeIndexRoute: PublicHomeIndexRoute,
   PublicContactIndexRoute: PublicContactIndexRoute,
+  PublicForgotPasswordIndexRoute: PublicForgotPasswordIndexRoute,
   PublicGamesIndexRoute: PublicGamesIndexRoute,
   PublicOperationIndexRoute: PublicOperationIndexRoute,
   PublicPrivacyIndexRoute: PublicPrivacyIndexRoute,
