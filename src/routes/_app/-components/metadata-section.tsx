@@ -1,36 +1,40 @@
 import { AlertTriangleIcon, ClipboardCheckIcon, UsersIcon } from 'lucide-react'
-import { MetadataCard, type MetadataCardProps } from './metadata-card'
+import { Suspense } from 'react'
+import {
+  MetadataCardSkeleton,
+  type MetadataCardSkeletonProps,
+} from './metadata-card-skeleton'
+import { TotalOfPatientsMetadataCard } from './total-of-patients-metadata-card'
 
-const metadata: MetadataCardProps[] = [
-  {
+type MetadataKeys = 'users' | 'applications' | 'alerts'
+
+const metadata: Record<MetadataKeys, MetadataCardSkeletonProps> = {
+  users: {
     icon: UsersIcon,
     title: 'Pacientes ativos',
-    value: 128,
-    description: '+12 este mês',
     color: 'primary',
   },
-  {
+  applications: {
     icon: ClipboardCheckIcon,
     title: 'Aplicações realizadas',
-    value: 356,
-    description: '+18 este mês',
     color: 'indigo',
   },
-  {
+  alerts: {
     icon: AlertTriangleIcon,
     title: 'Sinais de atenção',
-    value: 24,
-    description: '+3 este mês',
     color: 'amber',
   },
-]
+}
 
 export function MetadataSection() {
   return (
     <section className="grid grid-cols-3 gap-10">
-      {metadata.map((meta) => (
-        <MetadataCard key={meta.title} {...meta} />
-      ))}
+      <Suspense fallback={<MetadataCardSkeleton {...metadata.users} />}>
+        <TotalOfPatientsMetadataCard {...metadata.users} />
+      </Suspense>
+
+      <MetadataCardSkeleton {...metadata.applications} />
+      <MetadataCardSkeleton {...metadata.alerts} />
     </section>
   )
 }
