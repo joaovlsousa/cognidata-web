@@ -3,6 +3,7 @@ import {
   type CreatePatientRequest,
   createPatient,
 } from '@/http/patient/create-patient'
+import type { GetTotalOfPatientsResponse } from '@/http/patient/get-total-of-patients'
 import { handleHttpError } from '../_errors/handle-http-error'
 
 export function useCreatePatient() {
@@ -11,7 +12,22 @@ export function useCreatePatient() {
     onSuccess: (_data, _variables, _onMutateResult, context) => {
       context.client.invalidateQueries({
         queryKey: ['patients'],
+        exact: true,
       })
+
+      context.client.setQueryData<GetTotalOfPatientsResponse>(
+        ['patients', 'total'],
+        (oldData) => {
+          if (!oldData) {
+            return oldData
+          }
+
+          return {
+            totalOfPatients: oldData.totalOfPatients + 1,
+            thisMonth: oldData.thisMonth + 1,
+          }
+        }
+      )
     },
     onError: handleHttpError,
   })
