@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { useGetPatients } from '@/hooks/http/patient/use-get-patients'
 import { cn } from '@/lib/utils'
 import { PatientsTableActions } from './patients-table-actions'
+import { PatientsTableEmpty } from './patients-table-empty'
 import { PatientsTableHeader } from './patients-table-header'
 
 export function PatientsTable() {
@@ -16,6 +17,8 @@ export function PatientsTable() {
       <PatientsTableHeader />
 
       <TableBody>
+        {patients.length === 0 && <PatientsTableEmpty />}
+
         {patients.map((patient, i) => (
           <TableRow key={patient.id}>
             <TableCell className="pl-3 text-base font-medium">
