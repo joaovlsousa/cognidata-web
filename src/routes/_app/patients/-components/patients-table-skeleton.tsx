@@ -1,6 +1,5 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
-import { PatientsTableFooterSkeleton } from './patients-table-footer-skeleton'
 import { PatientsTableHeader } from './patients-table-header'
 
 export function PatientsTableSkeleton() {
@@ -41,8 +40,6 @@ export function PatientsTableSkeleton() {
           </TableRow>
         ))}
       </TableBody>
-
-      <PatientsTableFooterSkeleton />
     </Table>
   )
 }

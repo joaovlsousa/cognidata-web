@@ -1,7 +1,9 @@
-import { Link } from '@tanstack/react-router'
-import { CornerDownLeftIcon, UserPlusIcon } from 'lucide-react'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CornerDownLeftIcon,
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   InputGroup,
@@ -9,35 +11,53 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from '@/components/ui/input-group'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { useGetPatients } from '@/hooks/http/patient/use-get-patients'
 import { useGetPatientsFilters } from '@/hooks/use-get-patients-filters'
+import { useGetPatientsPagesPagination } from '@/hooks/use-get-patients-pages-pagination'
 
-interface StatusFilter {
-  tag: 'all' | 'active' | 'alert' | 'pending'
-  label: string
+const perPageOptions = {
+  10: '10 pacientes por página',
+  15: '15 pacientes por página',
+  20: '20 pacientes por página',
+  25: '25 pacientes por página',
 }
-
-const statusFilters: StatusFilter[] = [
-  {
-    tag: 'all',
-    label: 'Todos',
-  },
-  {
-    tag: 'active',
-    label: 'Ativos',
-  },
-  {
-    tag: 'alert',
-    label: 'Com alerta',
-  },
-  {
-    tag: 'pending',
-    label: 'Aguardando',
-  },
-]
 
 export function PatientsTableFilters() {
   const { filters, setFilters, handleSetName } = useGetPatientsFilters()
   const [name, setName] = useState(filters.name ?? '')
+
+  const {
+    data: { meta },
+  } = useGetPatients()
+
+  const pages = useGetPatientsPagesPagination(meta.page, meta.totalPages)
+
+  function handleNextPage() {
+    if (meta.page >= meta.totalPages) {
+      return
+    }
+
+    setFilters({
+      page: meta.page + 1,
+    })
+  }
+
+  function handlePreviousPage() {
+    if (meta.page <= 1) {
+      return
+    }
+
+    setFilters({
+      page: meta.page - 1,
+    })
+  }
 
   function handleChange(value: string) {
     setName(value)
@@ -52,25 +72,7 @@ export function PatientsTableFilters() {
   }, [filters.name])
 
   return (
-    <div className="p-3 flex items-center justify-between gap-x-10 rounded-t-xl bg-muted">
-      <div className="flex items-center gap-x-3 shrink-0">
-        {statusFilters.map((status) => (
-          <Badge
-            key={status.tag}
-            onClick={() =>
-              setFilters({
-                status: status.tag,
-                page: 1,
-              })
-            }
-            variant={status.tag === filters.status ? 'default' : 'outline'}
-            className="p-3 cursor-pointer"
-          >
-            {status.label}
-          </Badge>
-        ))}
-      </div>
-
+    <div className="p-3 flex items-center justify-between gap-x-6 rounded-t-xl bg-muted">
       <InputGroup>
         <InputGroupInput
           value={name}
@@ -96,12 +98,66 @@ export function PatientsTableFilters() {
         )}
       </InputGroup>
 
-      <Link to="/patients/new">
-        <Button type="button" className="px-6">
-          <UserPlusIcon />
-          <span>Novo paciente</span>
-        </Button>
-      </Link>
+      <div className="flex items-center gap-x-6">
+        <Select
+          items={perPageOptions}
+          defaultValue={filters.perPage.toString()}
+          value={filters.perPage.toString()}
+          onValueChange={(value) =>
+            setFilters({
+              perPage: Number(value),
+              page: 1,
+            })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+
+          <SelectContent>
+            {Object.entries(perPageOptions).map(([key, value]) => (
+              <SelectItem key={key} value={key}>
+                {value}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <div className="flex items-center gap-x-3">
+          <Button
+            variant="outline"
+            size="icon-sm"
+            disabled={meta.page <= 1}
+            onClick={handlePreviousPage}
+          >
+            <ChevronLeftIcon />
+          </Button>
+
+          {pages.map(({ page, isActive }) => (
+            <Button
+              key={page}
+              size="icon-sm"
+              variant={isActive ? 'default' : 'ghost'}
+              onClick={() =>
+                setFilters({
+                  page: page,
+                })
+              }
+            >
+              {page}
+            </Button>
+          ))}
+
+          <Button
+            variant="outline"
+            size="icon-sm"
+            disabled={meta.page >= meta.totalPages}
+            onClick={handleNextPage}
+          >
+            <ChevronRightIcon />
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,11 +1,9 @@
 import { differenceInYears } from 'date-fns'
-import { Suspense } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { useGetPatients } from '@/hooks/http/patient/use-get-patients'
 import { cn } from '@/lib/utils'
 import { PatientsTableActions } from './patients-table-actions'
-import { PatientsTableFooter } from './patients-table-footer'
 import { PatientsTableHeader } from './patients-table-header'
 
 export function PatientsTable() {
@@ -55,10 +53,6 @@ export function PatientsTable() {
           </TableRow>
         ))}
       </TableBody>
-
-      <Suspense fallback={<p>carr</p>}>
-        <PatientsTableFooter />
-      </Suspense>
     </Table>
   )
 }
