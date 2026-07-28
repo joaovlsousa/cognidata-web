@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { UserPlusIcon } from 'lucide-react'
+import { DownloadIcon, UserPlusIcon } from 'lucide-react'
 import { Suspense } from 'react'
 import { Button } from '@/components/ui/button'
 import { AppHeader } from '../-components/app-header'
@@ -30,6 +30,13 @@ function RouteComponent() {
           <Button type="button" size="lg" className="px-6">
             <UserPlusIcon />
             <span>Novo paciente</span>
+          </Button>
+        </Link>
+
+        <Link to="/patients/import">
+          <Button type="button" size="lg" variant="outline" className="px-6">
+            <DownloadIcon />
+            <span>Importar</span>
           </Button>
         </Link>
 

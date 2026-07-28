@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { UserPlusIcon, UserSearchIcon } from 'lucide-react'
+import { DownloadIcon, UserPlusIcon, UserSearchIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
   Empty,
@@ -34,7 +34,17 @@ export function PatientsTableEmpty() {
               </Button>
             </Link>
 
-            <Button variant="outline">Import Project</Button>
+            <Link to="/patients/import">
+              <Button
+                type="button"
+                size="lg"
+                variant="outline"
+                className="px-6"
+              >
+                <DownloadIcon />
+                <span>Importar</span>
+              </Button>
+            </Link>
           </EmptyContent>
         </Empty>
       </TableCell>

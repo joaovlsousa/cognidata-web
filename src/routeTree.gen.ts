@@ -23,6 +23,7 @@ import { Route as PublicHomeIndexRouteImport } from './routes/_public/_home/inde
 import { Route as AppPatientsIndexRouteImport } from './routes/_app/patients/index'
 import { Route as AppDashboardIndexRouteImport } from './routes/_app/dashboard/index'
 import { Route as AppPatientsNewIndexRouteImport } from './routes/_app/patients/new/index'
+import { Route as AppPatientsImportIndexRouteImport } from './routes/_app/patients/import/index'
 import { Route as AppPatientsPatientIdIndexRouteImport } from './routes/_app/patients/$patientId/index'
 import { Route as AppPatientsPatientIdEditIndexRouteImport } from './routes/_app/patients/$patientId/edit/index'
 
@@ -95,6 +96,11 @@ const AppPatientsNewIndexRoute = AppPatientsNewIndexRouteImport.update({
   path: '/patients/new/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppPatientsImportIndexRoute = AppPatientsImportIndexRouteImport.update({
+  id: '/patients/import/',
+  path: '/patients/import/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppPatientsPatientIdIndexRoute =
   AppPatientsPatientIdIndexRouteImport.update({
     id: '/patients/$patientId/',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/sign-up/': typeof PublicSignUpIndexRoute
   '/terms/': typeof PublicTermsIndexRoute
   '/patients/$patientId/': typeof AppPatientsPatientIdIndexRoute
+  '/patients/import/': typeof AppPatientsImportIndexRoute
   '/patients/new/': typeof AppPatientsNewIndexRoute
   '/patients/$patientId/edit/': typeof AppPatientsPatientIdEditIndexRoute
 }
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/sign-up': typeof PublicSignUpIndexRoute
   '/terms': typeof PublicTermsIndexRoute
   '/patients/$patientId': typeof AppPatientsPatientIdIndexRoute
+  '/patients/import': typeof AppPatientsImportIndexRoute
   '/patients/new': typeof AppPatientsNewIndexRoute
   '/patients/$patientId/edit': typeof AppPatientsPatientIdEditIndexRoute
 }
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/_public/sign-up/': typeof PublicSignUpIndexRoute
   '/_public/terms/': typeof PublicTermsIndexRoute
   '/_app/patients/$patientId/': typeof AppPatientsPatientIdIndexRoute
+  '/_app/patients/import/': typeof AppPatientsImportIndexRoute
   '/_app/patients/new/': typeof AppPatientsNewIndexRoute
   '/_app/patients/$patientId/edit/': typeof AppPatientsPatientIdEditIndexRoute
 }
@@ -174,6 +183,7 @@ export interface FileRouteTypes {
     | '/sign-up/'
     | '/terms/'
     | '/patients/$patientId/'
+    | '/patients/import/'
     | '/patients/new/'
     | '/patients/$patientId/edit/'
   fileRoutesByTo: FileRoutesByTo
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
     | '/sign-up'
     | '/terms'
     | '/patients/$patientId'
+    | '/patients/import'
     | '/patients/new'
     | '/patients/$patientId/edit'
   id:
@@ -208,6 +219,7 @@ export interface FileRouteTypes {
     | '/_public/sign-up/'
     | '/_public/terms/'
     | '/_app/patients/$patientId/'
+    | '/_app/patients/import/'
     | '/_app/patients/new/'
     | '/_app/patients/$patientId/edit/'
   fileRoutesById: FileRoutesById
@@ -317,6 +329,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPatientsNewIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/patients/import/': {
+      id: '/_app/patients/import/'
+      path: '/patients/import'
+      fullPath: '/patients/import/'
+      preLoaderRoute: typeof AppPatientsImportIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_app/patients/$patientId/': {
       id: '/_app/patients/$patientId/'
       path: '/patients/$patientId'
@@ -338,6 +357,7 @@ interface AppRouteRouteChildren {
   AppDashboardIndexRoute: typeof AppDashboardIndexRoute
   AppPatientsIndexRoute: typeof AppPatientsIndexRoute
   AppPatientsPatientIdIndexRoute: typeof AppPatientsPatientIdIndexRoute
+  AppPatientsImportIndexRoute: typeof AppPatientsImportIndexRoute
   AppPatientsNewIndexRoute: typeof AppPatientsNewIndexRoute
   AppPatientsPatientIdEditIndexRoute: typeof AppPatientsPatientIdEditIndexRoute
 }
@@ -346,6 +366,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardIndexRoute: AppDashboardIndexRoute,
   AppPatientsIndexRoute: AppPatientsIndexRoute,
   AppPatientsPatientIdIndexRoute: AppPatientsPatientIdIndexRoute,
+  AppPatientsImportIndexRoute: AppPatientsImportIndexRoute,
   AppPatientsNewIndexRoute: AppPatientsNewIndexRoute,
   AppPatientsPatientIdEditIndexRoute: AppPatientsPatientIdEditIndexRoute,
 }

@@ -40,7 +40,7 @@ export function PatientsPopoverFilters() {
     <Popover>
       <PopoverTrigger
         render={
-          <Button variant="secondary" size="lg" className="px-6">
+          <Button variant="outline" size="lg" className="px-6">
             <FunnelIcon />
             <span>Filtros</span>
           </Button>
