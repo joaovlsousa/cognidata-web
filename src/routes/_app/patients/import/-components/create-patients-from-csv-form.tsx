@@ -1,4 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
+import { AxiosError } from 'axios'
 import {
   CircleAlertIcon,
   FileTextIcon,
@@ -89,7 +90,15 @@ export function CreatePatientsFromCsvForm() {
       return
     }
 
-    await createPatientsFromCsvMutation.mutateAsync({ file })
+    try {
+      await createPatientsFromCsvMutation.mutateAsync({ file })
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setError(error.response?.data.message)
+
+        return
+      }
+    }
 
     toast.success('Arquivo enviado com sucesso')
     navigate({ to: '/patients' })
