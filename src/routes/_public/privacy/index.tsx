@@ -14,14 +14,18 @@ export const Route = createFileRoute('/_public/privacy/')({
 function RouteComponent() {
   return (
     <div className="space-y-10">
-      <section className="space-y-2 text-center">
-        <h2 className="text-4xl font-bold">Política de Privacidade</h2>
-        <p className="max-w-xl mx-auto leading-relaxed text-muted-foreground">
-          No CogniDataHub, a proteção dos seus dados pessoais e clínicos é uma
-          prioridade. Atuamos em conformidade com a Lei Geral de Proteção de
-          Dados (LGPD) para garantir transparência, segurança e respeito à sua
-          privacidade.
-        </p>
+      <section className="flex items-center gap-x-6">
+        <img src="/privacy-illustration.svg" alt="" className="max-h-32" />
+
+        <div>
+          <h2 className="text-4xl font-bold">Política de Privacidade</h2>
+          <p className="max-w-xl mx-auto leading-relaxed text-muted-foreground">
+            No CogniDataHub, a proteção dos seus dados pessoais e clínicos é uma
+            prioridade. Atuamos em conformidade com a Lei Geral de Proteção de
+            Dados (LGPD) para garantir transparência, segurança e respeito à sua
+            privacidade.
+          </p>
+        </div>
       </section>
 
       <section className="flex justify-between gap-x-6">

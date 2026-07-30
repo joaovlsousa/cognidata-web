@@ -76,17 +76,17 @@ function RouteComponent() {
 
         <div className="grid grid-cols-3 gap-x-6">
           <img
-            src="/gallery_1.jpeg"
+            src="/gallery-1.jpeg"
             alt="Imagem do jogo"
             className="w-full aspect-video rounded-xl shadow-md"
           />
           <img
-            src="/gallery_2.jpeg"
+            src="/gallery-2.jpeg"
             alt="Imagem do jogo"
             className="w-full aspect-video rounded-xl shadow-md"
           />
           <img
-            src="/gallery_3.jpeg"
+            src="/gallery-3.jpeg"
             alt="Imagem do jogo"
             className="w-full aspect-video rounded-xl shadow-md"
           />

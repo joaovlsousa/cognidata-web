@@ -10,7 +10,7 @@ export const Route = createFileRoute('/_public/sign-in/')({
 
 function RouteComponent() {
   return (
-    <section className="grid grid-cols-2 gap-x-10">
+    <section className="flex items-start justify-between gap-x-10">
       <div className="space-y-6">
         <h2 className="text-5xl font-bold leading-tight">
           Acesse sua conta no CogniDataHub
@@ -20,42 +20,46 @@ function RouteComponent() {
           acompanhar resultados e indicadores com segurança e base cientifica.
         </p>
 
-        <div className="flex items-center gap-x-6">
-          <div className="flex items-center gap-x-1">
-            <ShieldCheckIcon className="size-4 text-primary" />
-            <p className="text-xs font-medium text-muted-foreground">
-              Dados seguros
-            </p>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <FlaskConicalIcon className="size-4 text-primary" />
-            <p className="text-xs font-medium text-muted-foreground">
-              Base científica
-            </p>
-          </div>
-          <div className="flex items-center gap-x-1">
-            <LockIcon className="size-4 text-primary" />
-            <p className="text-xs font-medium text-muted-foreground">
-              Conformidade com a LGPD
-            </p>
-          </div>
-        </div>
+        <img src="/sign-in-illustration.svg" alt="" className="max-h-64" />
       </div>
 
-      <Card className="w-full max-w-lg mx-auto">
+      <Card className="w-full max-w-lg">
         <CardHeader className="justify-center">
           <Logo />
         </CardHeader>
         <CardContent>
           <SignInForm />
         </CardContent>
-        <CardFooter className="justify-center">
-          <p className="text-sm font-medium text-muted-foreground">
-            Ainda não possui acesso?{' '}
-            <Link to="/sign-up" className="text-primary">
-              Solicitar acesso
-            </Link>
-          </p>
+        <CardFooter>
+          <div className="flex flex-col items-center justify-between gap-y-6">
+            <p className="text-sm font-medium text-muted-foreground">
+              Ainda não possui acesso?{' '}
+              <Link to="/sign-up" className="text-primary">
+                Solicitar acesso
+              </Link>
+            </p>
+
+            <div className="flex items-center gap-x-6">
+              <div className="flex items-center gap-x-1">
+                <ShieldCheckIcon className="size-4 text-primary" />
+                <p className="text-xs font-medium text-muted-foreground">
+                  Dados seguros
+                </p>
+              </div>
+              <div className="flex items-center gap-x-1">
+                <FlaskConicalIcon className="size-4 text-primary" />
+                <p className="text-xs font-medium text-muted-foreground">
+                  Base científica
+                </p>
+              </div>
+              <div className="flex items-center gap-x-1">
+                <LockIcon className="size-4 text-primary" />
+                <p className="text-xs font-medium text-muted-foreground">
+                  Conformidade com a LGPD
+                </p>
+              </div>
+            </div>
+          </div>
         </CardFooter>
       </Card>
     </section>

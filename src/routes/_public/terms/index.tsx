@@ -20,13 +20,17 @@ export const Route = createFileRoute('/_public/terms/')({
 function RouteComponent() {
   return (
     <div className="space-y-10">
-      <section className="text-center">
-        <h2 className="text-4xl font-bold">Termos de Uso</h2>
-        <p className="max-w-xl mx-auto leading-relaxed text-muted-foreground">
-          Estes termos estabelecem as regras, responsabilidades e condições para
-          o uso da plataforma CognitDataHub. Leia com atenção antes de utilizar
-          nossos serviços.
-        </p>
+      <section className="flex items-center gap-x-6">
+        <img src="/terms-illustration.svg" alt="" className="max-h-32" />
+
+        <div>
+          <h2 className="text-4xl font-bold">Termos de Uso</h2>
+          <p className="max-w-xl mx-auto leading-relaxed text-muted-foreground">
+            Estes termos estabelecem as regras, responsabilidades e condições
+            para o uso da plataforma CognitDataHub. Leia com atenção antes de
+            utilizar nossos serviços.
+          </p>
+        </div>
       </section>
 
       <section className="flex justify-between gap-x-6">
