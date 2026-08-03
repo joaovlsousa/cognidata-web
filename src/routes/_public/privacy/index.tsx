@@ -20,7 +20,7 @@ function RouteComponent() {
         <div>
           <h2 className="text-4xl font-bold">Política de Privacidade</h2>
           <p className="max-w-xl mx-auto leading-relaxed text-muted-foreground">
-            No CogniDataHub, a proteção dos seus dados pessoais e clínicos é uma
+            No CogniData, a proteção dos seus dados pessoais e clínicos é uma
             prioridade. Atuamos em conformidade com a Lei Geral de Proteção de
             Dados (LGPD) para garantir transparência, segurança e respeito à sua
             privacidade.
@@ -71,7 +71,7 @@ function RouteComponent() {
           <InfoCard
             icon={ShieldCheckIcon}
             title="Seus direitos garantidos"
-            description="Você tem o controle sobre os seus dados. A CogniDataHub está comprometida em garantir transparência, segurança e respeito aos seus direitos de privacidade."
+            description="Você tem o controle sobre os seus dados. A CogniData está comprometida em garantir transparência, segurança e respeito aos seus direitos de privacidade."
           >
             <div className="space-y-3 text-primary">
               <div className="flex items-center gap-x-2">

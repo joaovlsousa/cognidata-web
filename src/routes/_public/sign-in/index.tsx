@@ -13,7 +13,7 @@ function RouteComponent() {
     <section className="flex items-start justify-between gap-x-10">
       <div className="space-y-6">
         <h2 className="text-5xl font-bold leading-tight">
-          Acesse sua conta no CogniDataHub
+          Acesse sua conta no CogniData
         </h2>
         <p className="pr-48 font-medium text-muted-foreground leading-relaxed text-justify">
           Faça login para gerenciar seus pacientes, aplicar avaliações,

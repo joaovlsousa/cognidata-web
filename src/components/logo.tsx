@@ -7,7 +7,7 @@ export function Logo() {
       <BrainIcon className="size-10 text-primary stroke-[1.75px]" />
       <div>
         <h1 className="text-2xl font-bold">
-          CogniData<span className="text-primary">Hub</span>
+          Cogni<span className="text-primary">Data</span>
         </h1>
         <p className="-mt-1 text-xs text-muted-foreground font-medium">
           Plataforma Psicométrica

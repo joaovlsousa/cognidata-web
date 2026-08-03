@@ -16,10 +16,9 @@ function RouteComponent() {
             Jogos educativos que engajam e geram indicadores confiáveis.
           </h2>
           <p className="pr-7 font-medium text-muted-foreground leading-relaxed text-justify">
-            O CogniDataHub integra jogos baseados em evidências com coleta de
-            dados psicométricos, oferecendo avaliações lúdicas, precisas e
-            confiáveis para apoiar a prática clinica e o acompanhamento de
-            resultados.
+            O CogniData integra jogos baseados em evidências com coleta de dados
+            psicométricos, oferecendo avaliações lúdicas, precisas e confiáveis
+            para apoiar a prática clinica e o acompanhamento de resultados.
           </p>
 
           <div className="space-x-3">
@@ -56,7 +55,7 @@ function RouteComponent() {
 
       <section className="space-y-3">
         <h3 className="text-2xl font-bold">
-          Como os dados chegam no CogniDataHub
+          Como os dados chegam no CogniData
         </h3>
 
         <div className="grid grid-cols-4 gap-x-6">

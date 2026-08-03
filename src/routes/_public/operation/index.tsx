@@ -28,7 +28,7 @@ function RouteComponent() {
       <section className="grid grid-cols-[40%_1fr] gap-x-6">
         <div className="space-y-6">
           <h2 className="text-5xl font-bold leading-tight">
-            Como o CogniDataHub transforma dados em acompanhamento clínico
+            Como o CogniData transforma dados em acompanhamento clínico
           </h2>
           <p className="pr-7 font-medium text-muted-foreground leading-relaxed text-justify">
             A plataforma conecta o cadastro do paciente, aplicação de avaliação
