@@ -9,6 +9,7 @@ export interface GetPatientResponse {
     id: string
     applicatorId: string
     name: string
+    cpf: string
     gender: 'male' | 'female'
     dateOfBirth: string
     patientResponsibleName: string

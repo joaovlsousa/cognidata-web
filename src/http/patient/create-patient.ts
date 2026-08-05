@@ -4,6 +4,7 @@ export interface CreatePatientRequest {
   name: string
   dateOfBirth: string
   gender: 'male' | 'female'
+  cpf: string
   patientResponsibleName: string
   patientResponsibleKinship:
     | 'father/mother'

@@ -1,22 +1,26 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
+import { useNavigate } from '@tanstack/react-router'
 import {
   Calendar1Icon,
   CircleQuestionMarkIcon,
+  IdCardIcon,
+  InfoIcon,
   MailIcon,
   PhoneIcon,
   SaveIcon,
   SchoolIcon,
   UserIcon,
 } from 'lucide-react'
-import { useState, useTransition } from 'react'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { toast } from 'sonner'
 import { Loader } from '@/components/loader'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Field,
+  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -39,96 +43,50 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { cn, maskPhone } from '@/lib/utils'
+import { useCreatePatient } from '@/hooks/http/patient/use-create-patient'
+import { cn, maskCpf, maskPhone } from '@/lib/utils'
+import {
+  genderOptions,
+  kinshipOptions,
+  scheduleOptions,
+  schoolYearOptions,
+} from '../../$patientId/edit/-options/edit-patient-form-options'
+import {
+  type CreatePatientSchema,
+  createPatientSchema,
+} from '../-schemas/create-patient-schema'
 
-const formSchema = z.object({
-  name: z.string().min(1, 'Informe o nome do paciente'),
-  dateOfBirth: z.date('Informe a data de nascimento').max(new Date()),
-  gender: z.enum(['male', 'female'], 'Informe o gênero'),
-  patientResponsibleName: z.string().min(1, 'Informe o nome do responsável'),
-  patientResponsibleKinship: z.enum(
-    ['father/mother', 'grandfather/grandmother', 'uncle/aunt'],
-    'Informe o parentesco'
-  ),
-  patientResponsiblePhone: z
-    .string()
-    .transform((v) => v.replace(/\D/g, ''))
-    .refine((v) => v.length === 11, 'Informe um número de telefone válido'),
-  patientResponsibleEmail: z.email('Informe um email válido'),
-  schoolName: z.string().min(1, 'Informe o nome da escola'),
-  schoolYear: z.number('Informe o ano escolar').min(1).max(6),
-  schoolSchedule: z.enum(
-    ['morning', 'afternoon', 'fullTime'],
-    'Informe o turno'
-  ),
-  medicalChiefComplaint: z
-    .string()
-    .min(1, 'Informe a queixa principal do paciente'),
-  medicalObservations: z.string().transform((v) => (v?.length ? v : '')),
-})
-
-type FormSchema = z.infer<typeof formSchema>
-
-const genderOptions = {
-  male: 'Masculino',
-  female: 'Feminino',
-}
-
-const kinshipOptions = {
-  'father/mother': 'Pai/Mãe',
-  'grandfather/grandmother': 'Avô/Avó',
-  'uncle/aunt': 'Tio/Tia',
-}
-
-const schoolYearOptions = {
-  1: '1° ano',
-  2: '2° ano',
-  3: '3° ano',
-  4: '4° ano',
-  5: '5° ano',
-  6: '6° ano',
-}
-
-const scheduleOptions = {
-  morning: 'Manhã',
-  afternoon: 'Tarde',
-  fullTime: 'Integral',
-}
-
-interface SavePatientFormProps {
-  onSubmit: (values: FormSchema) => Promise<void>
-  defaultValues?: FormSchema
-}
-
-export function SavePatientForm({
-  onSubmit,
-  defaultValues,
-}: SavePatientFormProps) {
+export function CreatePatientForm() {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-  const [isPending, startTransition] = useTransition()
 
-  const form = useForm<FormSchema>({
-    resolver: standardSchemaResolver(formSchema),
+  const form = useForm<CreatePatientSchema>({
+    resolver: standardSchemaResolver(createPatientSchema),
     defaultValues: {
-      name: defaultValues?.name ?? '',
-      dateOfBirth: defaultValues?.dateOfBirth,
-      gender: defaultValues?.gender,
-      patientResponsibleName: defaultValues?.patientResponsibleName ?? '',
-      patientResponsibleEmail: defaultValues?.patientResponsibleEmail ?? '',
-      patientResponsibleKinship: defaultValues?.patientResponsibleKinship,
-      patientResponsiblePhone: defaultValues?.patientResponsiblePhone ?? '',
-      schoolName: defaultValues?.schoolName ?? '',
-      schoolYear: defaultValues?.schoolYear,
-      schoolSchedule: defaultValues?.schoolSchedule,
-      medicalChiefComplaint: defaultValues?.medicalChiefComplaint ?? '',
-      medicalObservations: defaultValues?.medicalObservations ?? '',
+      name: '',
+      cpf: '',
+      patientResponsibleName: '',
+      patientResponsibleEmail: '',
+      patientResponsiblePhone: '',
+      schoolName: '',
+      medicalChiefComplaint: '',
+      medicalObservations: '',
     },
   })
 
-  function handleSubmit(values: FormSchema) {
-    startTransition(async () => {
-      await onSubmit(values)
+  const navigate = useNavigate()
+  const createPatientMutation = useCreatePatient()
+
+  async function handleSubmit(values: CreatePatientSchema) {
+    const dateOfBirth = values.dateOfBirth.toISOString().split('T')[0]
+
+    await createPatientMutation.mutateAsync({
+      ...values,
+      dateOfBirth,
     })
+
+    toast.success('Paciente salvo com sucesso')
+
+    navigate({ to: '/patients' })
   }
 
   return (
@@ -171,52 +129,24 @@ export function SavePatientForm({
             />
 
             <Controller
-              name="dateOfBirth"
+              name="cpf"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="dateOfBirth">
-                    Data de nascimento
-                  </FieldLabel>
-                  <Popover
-                    open={isDatePickerOpen}
-                    onOpenChange={setIsDatePickerOpen}
-                  >
-                    <PopoverTrigger
-                      render={
-                        <Button
-                          variant="outline"
-                          id="date"
-                          className={cn(
-                            'justify-start font-normal text-muted-foreground ring-input hover:text-muted-foreground',
-                            field.value && 'text-foreground'
-                          )}
-                        >
-                          <Calendar1Icon className="text-primary" />
-                          <span>
-                            {field.value
-                              ? field.value.toLocaleDateString()
-                              : 'Selecione a data de nascimento'}
-                          </span>
-                        </Button>
-                      }
+                  <FieldLabel htmlFor="cpf">CPF</FieldLabel>
+                  <InputGroup>
+                    <InputGroupInput
+                      {...field}
+                      onChange={(e) => field.onChange(maskCpf(e.target.value))}
+                      placeholder="123.456.789-00"
+                      aria-invalid={fieldState.invalid}
+                      autoComplete="off"
+                      spellCheck={false}
                     />
-                    <PopoverContent
-                      className="w-auto overflow-hidden p-0"
-                      align="start"
-                    >
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        defaultMonth={field.value}
-                        captionLayout="dropdown"
-                        onSelect={(date) => {
-                          field.onChange(date)
-                          setIsDatePickerOpen(false)
-                        }}
-                      />
-                    </PopoverContent>
-                  </Popover>
+                    <InputGroupAddon>
+                      <IdCardIcon />
+                    </InputGroupAddon>
+                  </InputGroup>
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
@@ -224,35 +154,93 @@ export function SavePatientForm({
               )}
             />
 
-            <Controller
-              name="gender"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid} className="max-w-1/2">
-                  <FieldLabel htmlFor="gender">Gênero</FieldLabel>
-                  <Select
-                    items={genderOptions}
-                    name={field.name}
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger
-                      id="gender"
-                      aria-invalid={fieldState.invalid}
+            <Field orientation="horizontal" className="items-start">
+              <Controller
+                name="dateOfBirth"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="dateOfBirth">
+                      Data de nascimento
+                    </FieldLabel>
+                    <Popover
+                      open={isDatePickerOpen}
+                      onOpenChange={setIsDatePickerOpen}
                     >
-                      <SelectValue placeholder="Selecione o gênero" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="male">Masculino</SelectItem>
-                      <SelectItem value="female">Feminino</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
+                      <PopoverTrigger
+                        render={
+                          <Button
+                            variant="outline"
+                            id="date"
+                            className={cn(
+                              'justify-start font-normal text-muted-foreground ring-input hover:text-muted-foreground',
+                              field.value && 'text-foreground',
+                              fieldState.invalid &&
+                                'border border-destructive ring-3 ring-destructive/20'
+                            )}
+                          >
+                            <Calendar1Icon className="text-primary" />
+                            <span>
+                              {field.value
+                                ? field.value.toLocaleDateString()
+                                : 'Selecione a data de nascimento'}
+                            </span>
+                          </Button>
+                        }
+                      />
+                      <PopoverContent
+                        className="w-auto overflow-hidden p-0"
+                        align="start"
+                      >
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          defaultMonth={field.value}
+                          captionLayout="dropdown"
+                          onSelect={(date) => {
+                            field.onChange(date)
+                            setIsDatePickerOpen(false)
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+
+              <Controller
+                name="gender"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="gender">Gênero</FieldLabel>
+                    <Select
+                      items={genderOptions}
+                      name={field.name}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <SelectTrigger
+                        id="gender"
+                        aria-invalid={fieldState.invalid}
+                      >
+                        <SelectValue placeholder="Selecione o gênero" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="male">Masculino</SelectItem>
+                        <SelectItem value="female">Feminino</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </Field>
           </FieldGroup>
         </CardContent>
       </Card>
@@ -444,15 +432,13 @@ export function SavePatientForm({
                       <SelectValue placeholder="Selecione uma opção" />
                     </SelectTrigger>
                     <SelectContent>
-                      {Array.from({ length: 6 }).map((_, idx) => (
+                      {Array.from({ length: 6 }).map((_, index) => (
                         <SelectItem
-                          key={`schoolNchoolYear-${
-                            // biome-ignore lint/suspicious/noArrayIndexKey: <>
-                            idx + 1
-                          }`}
-                          value={idx + 1}
+                          // biome-ignore lint/suspicious/noArrayIndexKey: <>
+                          key={`schoolNchoolYear-${index + 1}`}
+                          value={index + 1}
                         >
-                          {idx + 1}° ano
+                          {index + 1}° ano
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -555,6 +541,13 @@ export function SavePatientForm({
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
+
+                  <FieldDescription>
+                    <div className="flex items-center gap-x-1">
+                      <InfoIcon className="size-4 mb-0.5" />
+                      <span>Campo opcional</span>
+                    </div>
+                  </FieldDescription>
                 </Field>
               )}
             />
@@ -562,9 +555,18 @@ export function SavePatientForm({
         </CardContent>
       </Card>
 
-      <Button type="submit" size="lg" disabled={isPending} className="px-6">
-        {isPending ? <Loader /> : <SaveIcon />}
-        <span>{isPending ? 'Salvando paciente' : 'Salvar e continuar'}</span>
+      <Button
+        type="submit"
+        size="lg"
+        className="px-6"
+        disabled={createPatientMutation.isPending}
+      >
+        {createPatientMutation.isPending ? <Loader /> : <SaveIcon />}
+        <span>
+          {createPatientMutation.isPending
+            ? 'Salvando paciente'
+            : 'Salvar e continuar'}
+        </span>
       </Button>
     </form>
   )

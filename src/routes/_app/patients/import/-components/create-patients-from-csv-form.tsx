@@ -20,8 +20,8 @@ import { useCreatePatientsFromCsv } from '@/hooks/http/patient/use-create-patien
 import { cn, formatBytes } from '@/lib/utils'
 
 export function CreatePatientsFromCsvForm() {
-  const MAX_ROWS = 1000
-  const MAX_FILE_SIZE_MB = 5
+  const MAX_ROWS = 50
+  const MAX_FILE_SIZE_MB = 1
 
   const inputId = useId()
   const fileInputRef = useRef<HTMLInputElement>(null)

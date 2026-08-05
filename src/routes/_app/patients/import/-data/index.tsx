@@ -12,6 +12,12 @@ export const columnSpecs: ColumnSpec[] = [
     required: true,
   },
   {
+    header: 'CPF',
+    example: '12345678900',
+    required: true,
+    hint: '11 dígitos, apenas números',
+  },
+  {
     header: 'Data de Nascimento',
     example: '12/03/2016',
     required: true,
