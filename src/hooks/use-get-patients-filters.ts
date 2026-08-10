@@ -13,6 +13,8 @@ export const patientsSearchParams = {
   status: parseAsStringEnum(['all', 'active', 'pending', 'alert']).withDefault(
     'all'
   ),
+  orderBy: parseAsStringEnum(['name', 'createdAt']).withDefault('name'),
+  order: parseAsStringEnum(['asc', 'desc']).withDefault('asc'),
 }
 
 export function useGetPatientsFilters() {
@@ -27,6 +29,8 @@ export function useGetPatientsFilters() {
       status: 'all',
       page: 1,
       perPage: 10,
+      orderBy: 'name',
+      order: 'asc',
     })
   }
 

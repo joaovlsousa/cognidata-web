@@ -8,30 +8,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { useGetPatientsFilters } from '@/hooks/use-get-patients-filters'
-
-interface StatusFilter {
-  tag: 'all' | 'active' | 'alert' | 'pending'
-  label: string
-}
-
-const statusFilters: StatusFilter[] = [
-  {
-    tag: 'all',
-    label: 'Todos',
-  },
-  {
-    tag: 'active',
-    label: 'Ativos',
-  },
-  {
-    tag: 'alert',
-    label: 'Com alerta',
-  },
-  {
-    tag: 'pending',
-    label: 'Aguardando',
-  },
-]
+import { orderFilters, statusFilters } from '../-data'
 
 export function PatientsPopoverFilters() {
   const { filters, setFilters } = useGetPatientsFilters()
@@ -46,7 +23,8 @@ export function PatientsPopoverFilters() {
           </Button>
         }
       />
-      <PopoverContent className="w-fit" align="start">
+
+      <PopoverContent className="w-104" align="start">
         <Field>
           <FieldLabel>Status</FieldLabel>
 
@@ -64,6 +42,33 @@ export function PatientsPopoverFilters() {
                 className="p-3 cursor-pointer"
               >
                 {status.label}
+              </Badge>
+            ))}
+          </div>
+        </Field>
+
+        <Field>
+          <FieldLabel>Ordenar por</FieldLabel>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            {orderFilters.map((order) => (
+              <Badge
+                key={`${order.orderBy}-${order.order}`}
+                onClick={() =>
+                  setFilters({
+                    order: order.order,
+                    orderBy: order.orderBy,
+                  })
+                }
+                variant={
+                  order.order === filters.order &&
+                  order.orderBy === filters.orderBy
+                    ? 'default'
+                    : 'outline'
+                }
+                className="p-3 cursor-pointer"
+              >
+                {order.label}
               </Badge>
             ))}
           </div>

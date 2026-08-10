@@ -9,9 +9,7 @@ export function useGetPatients() {
     queryKey: ['patients', filters],
     queryFn: () =>
       getPatients({
-        page: filters.page,
-        perPage: filters.perPage,
-        status: filters.status,
+        ...filters,
         name: filters.name ?? undefined,
       }),
   })

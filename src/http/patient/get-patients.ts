@@ -4,6 +4,8 @@ export interface GetPatientsRequest {
   page: number
   perPage: number
   status: string
+  order: string
+  orderBy: string
   name?: string
 }
 
@@ -41,12 +43,16 @@ export async function getPatients({
   perPage,
   status,
   name,
+  order,
+  orderBy,
 }: GetPatientsRequest): Promise<GetPatientsResponse> {
   const response = await api.get<GetPatientsResponse>('/patients', {
     params: {
       page,
       perPage,
       status,
+      order,
+      orderBy,
       name: name ?? undefined,
     },
   })
