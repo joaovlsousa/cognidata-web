@@ -27,7 +27,7 @@ const perPageOptions = {
   25: '25 pacientes por página',
 }
 
-export function PatientsTableFiltersDisabled() {
+export function PatientsTablePaginationDisabled() {
   const { filters } = useGetPatientsFilters()
 
   return (

@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { AppHeader } from '@/routes/_app/-components/app-header'
-import { SavePatientFormSkeleton } from '../../-components/save-patient-form-skeleton'
+import { EditPatientFormSkeleton } from './-components/edit-patient-form-skeleton'
 import { EditPatientFormTrigger } from './-components/edit-patient-form-trigger'
 
 export const Route = createFileRoute('/_app/patients/$patientId/edit/')({
@@ -16,7 +16,7 @@ function RouteComponent() {
         description="Atualize os dados do paciente para usufruir o máximo do acompanhamento clínico da plataforma."
       />
 
-      <Suspense fallback={<SavePatientFormSkeleton />}>
+      <Suspense fallback={<EditPatientFormSkeleton />}>
         <EditPatientFormTrigger />
       </Suspense>
     </div>

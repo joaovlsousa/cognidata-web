@@ -5,7 +5,7 @@ import { PatientsTableHeader } from './patients-table-header'
 export function PatientsTableSkeleton() {
   return (
     <Table>
-      <PatientsTableHeader />
+      <PatientsTableHeader patientsIds={[]} />
 
       <TableBody>
         {Array.from({ length: 10 }).map((_, i) => (

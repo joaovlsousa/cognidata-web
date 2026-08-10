@@ -1,27 +1,44 @@
 import { differenceInYears } from 'date-fns'
 import { Badge } from '@/components/ui/badge'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import { useGetPatients } from '@/hooks/http/patient/use-get-patients'
+import { usePatientsToDelete } from '@/hooks/use-patients-to-delete'
 import { cn } from '@/lib/utils'
 import { PatientsTableActions } from './patients-table-actions'
 import { PatientsTableEmpty } from './patients-table-empty'
 import { PatientsTableHeader } from './patients-table-header'
 
 export function PatientsTable() {
+  const patientsIdsToDelete = usePatientsToDelete((state) => state.patientsIds)
+  const toggle = usePatientsToDelete((state) => state.toggle)
+
   const {
     data: { patients },
   } = useGetPatients()
 
+  const patientsIds = patients.map((patient) => patient.id)
+
   return (
     <Table>
-      <PatientsTableHeader />
+      <PatientsTableHeader patientsIds={patientsIds} />
 
       <TableBody>
         {patients.length === 0 && <PatientsTableEmpty />}
 
         {patients.map((patient, i) => (
           <TableRow key={patient.id}>
-            <TableCell className="pl-3 text-base font-medium">
+            <TableCell className="pl-3">
+              <Checkbox
+                checked={patientsIdsToDelete.has(patient.id)}
+                onCheckedChange={() => {
+                  toggle(patient.id)
+                }}
+                className="cursor-pointer"
+              />
+            </TableCell>
+
+            <TableCell className="text-base font-medium">
               {patient.name}
             </TableCell>
 

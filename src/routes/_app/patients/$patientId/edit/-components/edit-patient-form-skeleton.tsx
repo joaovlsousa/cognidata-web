@@ -1,6 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton'
 
-export function SavePatientFormSkeleton() {
+export function EditPatientFormSkeleton() {
   return (
     <div className="space-y-6">
       <Skeleton className="h-48" />

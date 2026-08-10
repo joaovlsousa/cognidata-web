@@ -29,7 +29,7 @@ const perPageOptions = {
   25: '25 pacientes por página',
 }
 
-export function PatientsTableFilters() {
+export function PatientsTablePagination() {
   const { filters, setFilters, handleSetName } = useGetPatientsFilters()
   const [name, setName] = useState(filters.name ?? '')
 
