@@ -51,7 +51,7 @@ export function SuccessDialog() {
               Desde já, agradecemos a sua solicitação de acesso a plataforma!{' '}
               <br />
               Atenciosamente, <br />
-              Equipe PsicoHub.
+              Equipe CogniData.
             </AlertDialogDescription>
           </div>
         </div>

@@ -10,18 +10,34 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteImport } from './routes/_public'
-import { Route as PublicIndexRouteImport } from './routes/_public/index'
+import { Route as AppRouteRouteImport } from './routes/_app/route'
+import { Route as PublicTermsIndexRouteImport } from './routes/_public/terms/index'
 import { Route as PublicSignUpIndexRouteImport } from './routes/_public/sign-up/index'
 import { Route as PublicSignInIndexRouteImport } from './routes/_public/sign-in/index'
+import { Route as PublicPrivacyIndexRouteImport } from './routes/_public/privacy/index'
+import { Route as PublicOperationIndexRouteImport } from './routes/_public/operation/index'
+import { Route as PublicGamesIndexRouteImport } from './routes/_public/games/index'
+import { Route as PublicForgotPasswordIndexRouteImport } from './routes/_public/forgot-password/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
+import { Route as PublicHomeIndexRouteImport } from './routes/_public/_home/index'
+import { Route as AppPatientsIndexRouteImport } from './routes/_app/patients/index'
+import { Route as AppDashboardIndexRouteImport } from './routes/_app/dashboard/index'
+import { Route as AppPatientsNewIndexRouteImport } from './routes/_app/patients/new/index'
+import { Route as AppPatientsImportIndexRouteImport } from './routes/_app/patients/import/index'
+import { Route as AppPatientsPatientIdIndexRouteImport } from './routes/_app/patients/$patientId/index'
+import { Route as AppPatientsPatientIdEditIndexRouteImport } from './routes/_app/patients/$patientId/edit/index'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PublicIndexRoute = PublicIndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AppRouteRoute = AppRouteRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicTermsIndexRoute = PublicTermsIndexRouteImport.update({
+  id: '/terms/',
+  path: '/terms/',
   getParentRoute: () => PublicRoute,
 } as any)
 const PublicSignUpIndexRoute = PublicSignUpIndexRouteImport.update({
@@ -34,47 +50,182 @@ const PublicSignInIndexRoute = PublicSignInIndexRouteImport.update({
   path: '/sign-in/',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicPrivacyIndexRoute = PublicPrivacyIndexRouteImport.update({
+  id: '/privacy/',
+  path: '/privacy/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicOperationIndexRoute = PublicOperationIndexRouteImport.update({
+  id: '/operation/',
+  path: '/operation/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicGamesIndexRoute = PublicGamesIndexRouteImport.update({
+  id: '/games/',
+  path: '/games/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const PublicForgotPasswordIndexRoute =
+  PublicForgotPasswordIndexRouteImport.update({
+    id: '/forgot-password/',
+    path: '/forgot-password/',
+    getParentRoute: () => PublicRoute,
+  } as any)
 const PublicContactIndexRoute = PublicContactIndexRouteImport.update({
   id: '/contact/',
   path: '/contact/',
   getParentRoute: () => PublicRoute,
 } as any)
+const PublicHomeIndexRoute = PublicHomeIndexRouteImport.update({
+  id: '/_home/',
+  path: '/',
+  getParentRoute: () => PublicRoute,
+} as any)
+const AppPatientsIndexRoute = AppPatientsIndexRouteImport.update({
+  id: '/patients/',
+  path: '/patients/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppDashboardIndexRoute = AppDashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPatientsNewIndexRoute = AppPatientsNewIndexRouteImport.update({
+  id: '/patients/new/',
+  path: '/patients/new/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPatientsImportIndexRoute = AppPatientsImportIndexRouteImport.update({
+  id: '/patients/import/',
+  path: '/patients/import/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPatientsPatientIdIndexRoute =
+  AppPatientsPatientIdIndexRouteImport.update({
+    id: '/patients/$patientId/',
+    path: '/patients/$patientId/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppPatientsPatientIdEditIndexRoute =
+  AppPatientsPatientIdEditIndexRouteImport.update({
+    id: '/patients/$patientId/edit/',
+    path: '/patients/$patientId/edit/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof PublicIndexRoute
+  '/': typeof PublicHomeIndexRoute
+  '/dashboard/': typeof AppDashboardIndexRoute
+  '/patients/': typeof AppPatientsIndexRoute
   '/contact/': typeof PublicContactIndexRoute
+  '/forgot-password/': typeof PublicForgotPasswordIndexRoute
+  '/games/': typeof PublicGamesIndexRoute
+  '/operation/': typeof PublicOperationIndexRoute
+  '/privacy/': typeof PublicPrivacyIndexRoute
   '/sign-in/': typeof PublicSignInIndexRoute
   '/sign-up/': typeof PublicSignUpIndexRoute
+  '/terms/': typeof PublicTermsIndexRoute
+  '/patients/$patientId/': typeof AppPatientsPatientIdIndexRoute
+  '/patients/import/': typeof AppPatientsImportIndexRoute
+  '/patients/new/': typeof AppPatientsNewIndexRoute
+  '/patients/$patientId/edit/': typeof AppPatientsPatientIdEditIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof PublicIndexRoute
+  '/': typeof PublicHomeIndexRoute
+  '/dashboard': typeof AppDashboardIndexRoute
+  '/patients': typeof AppPatientsIndexRoute
   '/contact': typeof PublicContactIndexRoute
+  '/forgot-password': typeof PublicForgotPasswordIndexRoute
+  '/games': typeof PublicGamesIndexRoute
+  '/operation': typeof PublicOperationIndexRoute
+  '/privacy': typeof PublicPrivacyIndexRoute
   '/sign-in': typeof PublicSignInIndexRoute
   '/sign-up': typeof PublicSignUpIndexRoute
+  '/terms': typeof PublicTermsIndexRoute
+  '/patients/$patientId': typeof AppPatientsPatientIdIndexRoute
+  '/patients/import': typeof AppPatientsImportIndexRoute
+  '/patients/new': typeof AppPatientsNewIndexRoute
+  '/patients/$patientId/edit': typeof AppPatientsPatientIdEditIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_app': typeof AppRouteRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
-  '/_public/': typeof PublicIndexRoute
+  '/_app/dashboard/': typeof AppDashboardIndexRoute
+  '/_app/patients/': typeof AppPatientsIndexRoute
+  '/_public/_home/': typeof PublicHomeIndexRoute
   '/_public/contact/': typeof PublicContactIndexRoute
+  '/_public/forgot-password/': typeof PublicForgotPasswordIndexRoute
+  '/_public/games/': typeof PublicGamesIndexRoute
+  '/_public/operation/': typeof PublicOperationIndexRoute
+  '/_public/privacy/': typeof PublicPrivacyIndexRoute
   '/_public/sign-in/': typeof PublicSignInIndexRoute
   '/_public/sign-up/': typeof PublicSignUpIndexRoute
+  '/_public/terms/': typeof PublicTermsIndexRoute
+  '/_app/patients/$patientId/': typeof AppPatientsPatientIdIndexRoute
+  '/_app/patients/import/': typeof AppPatientsImportIndexRoute
+  '/_app/patients/new/': typeof AppPatientsNewIndexRoute
+  '/_app/patients/$patientId/edit/': typeof AppPatientsPatientIdEditIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact/' | '/sign-in/' | '/sign-up/'
+  fullPaths:
+    | '/'
+    | '/dashboard/'
+    | '/patients/'
+    | '/contact/'
+    | '/forgot-password/'
+    | '/games/'
+    | '/operation/'
+    | '/privacy/'
+    | '/sign-in/'
+    | '/sign-up/'
+    | '/terms/'
+    | '/patients/$patientId/'
+    | '/patients/import/'
+    | '/patients/new/'
+    | '/patients/$patientId/edit/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/sign-in' | '/sign-up'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/patients'
+    | '/contact'
+    | '/forgot-password'
+    | '/games'
+    | '/operation'
+    | '/privacy'
+    | '/sign-in'
+    | '/sign-up'
+    | '/terms'
+    | '/patients/$patientId'
+    | '/patients/import'
+    | '/patients/new'
+    | '/patients/$patientId/edit'
   id:
     | '__root__'
+    | '/_app'
     | '/_public'
-    | '/_public/'
+    | '/_app/dashboard/'
+    | '/_app/patients/'
+    | '/_public/_home/'
     | '/_public/contact/'
+    | '/_public/forgot-password/'
+    | '/_public/games/'
+    | '/_public/operation/'
+    | '/_public/privacy/'
     | '/_public/sign-in/'
     | '/_public/sign-up/'
+    | '/_public/terms/'
+    | '/_app/patients/$patientId/'
+    | '/_app/patients/import/'
+    | '/_app/patients/new/'
+    | '/_app/patients/$patientId/edit/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AppRouteRoute: typeof AppRouteRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
 }
 
@@ -87,11 +238,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_public/': {
-      id: '/_public/'
-      path: '/'
+    '/_app': {
+      id: '/_app'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof PublicIndexRouteImport
+      preLoaderRoute: typeof AppRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public/terms/': {
+      id: '/_public/terms/'
+      path: '/terms'
+      fullPath: '/terms/'
+      preLoaderRoute: typeof PublicTermsIndexRouteImport
       parentRoute: typeof PublicRoute
     }
     '/_public/sign-up/': {
@@ -108,6 +266,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicSignInIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/privacy/': {
+      id: '/_public/privacy/'
+      path: '/privacy'
+      fullPath: '/privacy/'
+      preLoaderRoute: typeof PublicPrivacyIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/operation/': {
+      id: '/_public/operation/'
+      path: '/operation'
+      fullPath: '/operation/'
+      preLoaderRoute: typeof PublicOperationIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/games/': {
+      id: '/_public/games/'
+      path: '/games'
+      fullPath: '/games/'
+      preLoaderRoute: typeof PublicGamesIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_public/forgot-password/': {
+      id: '/_public/forgot-password/'
+      path: '/forgot-password'
+      fullPath: '/forgot-password/'
+      preLoaderRoute: typeof PublicForgotPasswordIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
     '/_public/contact/': {
       id: '/_public/contact/'
       path: '/contact'
@@ -115,27 +301,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicContactIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_public/_home/': {
+      id: '/_public/_home/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PublicHomeIndexRouteImport
+      parentRoute: typeof PublicRoute
+    }
+    '/_app/patients/': {
+      id: '/_app/patients/'
+      path: '/patients'
+      fullPath: '/patients/'
+      preLoaderRoute: typeof AppPatientsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/dashboard/': {
+      id: '/_app/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AppDashboardIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/patients/new/': {
+      id: '/_app/patients/new/'
+      path: '/patients/new'
+      fullPath: '/patients/new/'
+      preLoaderRoute: typeof AppPatientsNewIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/patients/import/': {
+      id: '/_app/patients/import/'
+      path: '/patients/import'
+      fullPath: '/patients/import/'
+      preLoaderRoute: typeof AppPatientsImportIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/patients/$patientId/': {
+      id: '/_app/patients/$patientId/'
+      path: '/patients/$patientId'
+      fullPath: '/patients/$patientId/'
+      preLoaderRoute: typeof AppPatientsPatientIdIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/patients/$patientId/edit/': {
+      id: '/_app/patients/$patientId/edit/'
+      path: '/patients/$patientId/edit'
+      fullPath: '/patients/$patientId/edit/'
+      preLoaderRoute: typeof AppPatientsPatientIdEditIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
+interface AppRouteRouteChildren {
+  AppDashboardIndexRoute: typeof AppDashboardIndexRoute
+  AppPatientsIndexRoute: typeof AppPatientsIndexRoute
+  AppPatientsPatientIdIndexRoute: typeof AppPatientsPatientIdIndexRoute
+  AppPatientsImportIndexRoute: typeof AppPatientsImportIndexRoute
+  AppPatientsNewIndexRoute: typeof AppPatientsNewIndexRoute
+  AppPatientsPatientIdEditIndexRoute: typeof AppPatientsPatientIdEditIndexRoute
+}
+
+const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppDashboardIndexRoute: AppDashboardIndexRoute,
+  AppPatientsIndexRoute: AppPatientsIndexRoute,
+  AppPatientsPatientIdIndexRoute: AppPatientsPatientIdIndexRoute,
+  AppPatientsImportIndexRoute: AppPatientsImportIndexRoute,
+  AppPatientsNewIndexRoute: AppPatientsNewIndexRoute,
+  AppPatientsPatientIdEditIndexRoute: AppPatientsPatientIdEditIndexRoute,
+}
+
+const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
+  AppRouteRouteChildren,
+)
+
 interface PublicRouteChildren {
-  PublicIndexRoute: typeof PublicIndexRoute
+  PublicHomeIndexRoute: typeof PublicHomeIndexRoute
   PublicContactIndexRoute: typeof PublicContactIndexRoute
+  PublicForgotPasswordIndexRoute: typeof PublicForgotPasswordIndexRoute
+  PublicGamesIndexRoute: typeof PublicGamesIndexRoute
+  PublicOperationIndexRoute: typeof PublicOperationIndexRoute
+  PublicPrivacyIndexRoute: typeof PublicPrivacyIndexRoute
   PublicSignInIndexRoute: typeof PublicSignInIndexRoute
   PublicSignUpIndexRoute: typeof PublicSignUpIndexRoute
+  PublicTermsIndexRoute: typeof PublicTermsIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
-  PublicIndexRoute: PublicIndexRoute,
+  PublicHomeIndexRoute: PublicHomeIndexRoute,
   PublicContactIndexRoute: PublicContactIndexRoute,
+  PublicForgotPasswordIndexRoute: PublicForgotPasswordIndexRoute,
+  PublicGamesIndexRoute: PublicGamesIndexRoute,
+  PublicOperationIndexRoute: PublicOperationIndexRoute,
+  PublicPrivacyIndexRoute: PublicPrivacyIndexRoute,
   PublicSignInIndexRoute: PublicSignInIndexRoute,
   PublicSignUpIndexRoute: PublicSignUpIndexRoute,
+  PublicTermsIndexRoute: PublicTermsIndexRoute,
 }
 
 const PublicRouteWithChildren =
   PublicRoute._addFileChildren(PublicRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  AppRouteRoute: AppRouteRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
 }
 export const routeTree = rootRouteImport

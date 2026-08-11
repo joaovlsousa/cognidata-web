@@ -5,6 +5,12 @@ export interface SignInRequest {
   password: string
 }
 
-export async function signIn(payload: SignInRequest): Promise<void> {
-  await api.post('/auth', payload)
+export interface SignInResponse {
+  token: string
+}
+
+export async function signIn(payload: SignInRequest): Promise<SignInResponse> {
+  const response = await api.post<SignInResponse>('/auth', payload)
+
+  return response.data
 }

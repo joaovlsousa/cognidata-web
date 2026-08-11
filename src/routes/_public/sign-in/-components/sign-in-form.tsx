@@ -50,7 +50,7 @@ export function SignInForm() {
       description: 'Login efetuado com sucesso',
     })
 
-    navigate({ to: '/app' })
+    navigate({ to: '/dashboard' })
   }
 
   return (
@@ -104,7 +104,8 @@ export function SignInForm() {
                 </InputGroupAddon>
               </InputGroup>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              <FieldDescription className="text-end">
+
+              <FieldDescription className="text-end text-primary">
                 <Link to="/forgot-password">Esqueci minha senha</Link>
               </FieldDescription>
             </Field>

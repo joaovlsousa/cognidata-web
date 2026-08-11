@@ -8,16 +8,8 @@ const links = [
     label: 'Início',
   },
   {
-    href: '/explore',
-    label: 'Conheça a plataforma',
-  },
-  {
     href: '/operation',
     label: 'Como funciona',
-  },
-  {
-    href: '/resources',
-    label: 'Recursos',
   },
   {
     href: '/games',
