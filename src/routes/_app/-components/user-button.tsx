@@ -45,7 +45,7 @@ export function UserButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent side="right" sideOffset={24}>
         <DropdownMenuGroup>
-          <Link to="/app/me">
+          <Link to="/dashboard">
             <DropdownMenuItem>
               <UserIcon />
               Ver perfil
