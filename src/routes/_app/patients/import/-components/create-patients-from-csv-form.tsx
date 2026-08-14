@@ -15,6 +15,7 @@ import {
   useState,
 } from 'react'
 import { toast } from 'sonner'
+import { Loader } from '@/components/loader'
 import { Button } from '@/components/ui/button'
 import { useCreatePatientsFromCsv } from '@/hooks/http/patient/use-create-patients-from-csv'
 import { cn, formatBytes } from '@/lib/utils'
@@ -140,10 +141,23 @@ export function CreatePatientsFromCsvForm() {
             </div>
           )}
 
-          <Button type="submit" size="lg" className="px-6">
-            <UploadIcon />
-
-            <span>Enviar arquivo</span>
+          <Button
+            type="submit"
+            size="lg"
+            className="px-6"
+            disabled={createPatientsFromCsvMutation.isPending}
+          >
+            {createPatientsFromCsvMutation.isPending ? (
+              <>
+                <Loader />
+                <span>Enviando arquivo...</span>
+              </>
+            ) : (
+              <>
+                <UploadIcon />
+                <span>Enviar arquivo</span>
+              </>
+            )}
           </Button>
         </div>
       )}

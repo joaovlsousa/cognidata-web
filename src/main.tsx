@@ -1,5 +1,6 @@
 import '@fontsource-variable/inter/wght.css'
 import './index.css'
+import './lib/date-fns'
 import { createRouter, RouterProvider } from '@tanstack/react-router'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
