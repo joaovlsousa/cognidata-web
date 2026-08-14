@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { differenceInYears } from 'date-fns'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -39,7 +40,13 @@ export function PatientsTable() {
             </TableCell>
 
             <TableCell className="text-base font-medium">
-              {patient.name}
+              <Link
+                to="/patients/$patientId"
+                params={{ patientId: patient.id }}
+                className="hover:underline"
+              >
+                {patient.name}
+              </Link>
             </TableCell>
 
             <TableCell>

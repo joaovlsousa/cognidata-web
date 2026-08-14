@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { format } from 'date-fns'
-import { ptBR } from 'date-fns/locale/pt-BR'
 import {
   CalendarSyncIcon,
   ListIcon,
@@ -96,9 +95,7 @@ function RouteComponent() {
                 <div>
                   <h5 className="text-base font-medium">Última atualização</h5>
                   <p className="text-sm font-medium text-primary">
-                    {format(new Date('2026-07-16'), `dd 'de' MMMM 'de' yyyy`, {
-                      locale: ptBR,
-                    })}
+                    {format(new Date('2026-07-16'), `dd 'de' MMMM 'de' yyyy`)}
                   </p>
                 </div>
               </div>
