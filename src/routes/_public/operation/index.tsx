@@ -7,16 +7,12 @@ import {
   UserIcon,
 } from 'lucide-react'
 import { Fragment } from 'react'
+import { SkillsChart } from '@/components/skills-chart'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import {
-  Progress,
-  ProgressLabel,
-  ProgressValue,
-} from '@/components/ui/progress'
 import { InfoCard } from '../-components/info-card'
 import { ExampleChart } from './-components/example-chart'
-import { platformRecords, stepByStep } from './-data'
+import { hablitiesChartValues, platformRecords, stepByStep } from './-data'
 
 export const Route = createFileRoute('/_public/operation/')({
   component: RouteComponent,
@@ -65,10 +61,6 @@ function RouteComponent() {
                     {step.description}
                   </p>
                 </div>
-
-                {/* {step.id % 2 !== 0 && (
-                  <MoveRightIcon className="text-primary mt-5" />
-                )} */}
               </Fragment>
             ))}
           </div>
@@ -99,48 +91,7 @@ function RouteComponent() {
             title="Resultados por habilidade"
             description="Visão clara das habilidades em aliteração, segmentação, memória visual, rima e coordenação viso-motora."
           >
-            <div className="space-y-3">
-              <Progress value={0.72} max={1} className="w-full max-w-sm gap-2">
-                <ProgressLabel>Aliteração</ProgressLabel>
-                <ProgressValue>{(_, value) => value}</ProgressValue>
-              </Progress>
-
-              <Progress
-                value={0.58}
-                max={1}
-                className="w-full max-w-sm gap-2 **:data-[slot='progress-indicator']:bg-sky-500"
-              >
-                <ProgressLabel>Segmentação</ProgressLabel>
-                <ProgressValue>{(_, value) => value}</ProgressValue>
-              </Progress>
-
-              <Progress
-                value={0.66}
-                max={1}
-                className="w-full max-w-sm gap-2 **:data-[slot='progress-indicator']:bg-violet-500"
-              >
-                <ProgressLabel>Memória visual</ProgressLabel>
-                <ProgressValue>{(_, value) => value}</ProgressValue>
-              </Progress>
-
-              <Progress
-                value={0.61}
-                max={1}
-                className="w-full max-w-sm gap-2 **:data-[slot='progress-indicator']:bg-violet-500"
-              >
-                <ProgressLabel>Rima</ProgressLabel>
-                <ProgressValue>{(_, value) => value}</ProgressValue>
-              </Progress>
-
-              <Progress
-                value={0.71}
-                max={1}
-                className="w-full max-w-sm gap-2 **:data-[slot='progress-indicator']:bg-emerald-500"
-              >
-                <ProgressLabel>Coordenação viso-motora</ProgressLabel>
-                <ProgressValue>{(_, value) => value}</ProgressValue>
-              </Progress>
-            </div>
+            <SkillsChart values={hablitiesChartValues} />
           </InfoCard>
 
           <InfoCard

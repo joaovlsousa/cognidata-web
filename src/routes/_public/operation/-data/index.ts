@@ -12,6 +12,7 @@ import {
   TrendingUpIcon,
   UserIcon,
 } from 'lucide-react'
+import type { SkillsChartValues } from '@/components/skills-chart'
 
 export const stepByStep = [
   {
@@ -85,3 +86,11 @@ export const platformRecords = [
     icon: PuzzleIcon,
   },
 ]
+
+export const hablitiesChartValues: SkillsChartValues = {
+  alliteration: 0.47,
+  segmentation: -1.12,
+  visualMemory: 2.22,
+  rhyme: -0.77,
+  visualMotorCoordination: 1.3,
+}
