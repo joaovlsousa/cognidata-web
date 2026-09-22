@@ -1,5 +1,6 @@
 import { AlertTriangleIcon, ClipboardCheckIcon, UsersIcon } from 'lucide-react'
 import { Suspense } from 'react'
+import { cn } from '@/lib/utils'
 import {
   MetadataCardSkeleton,
   type MetadataCardSkeletonProps,
@@ -26,15 +27,29 @@ const metadata: Record<MetadataKeys, MetadataCardSkeletonProps> = {
   },
 }
 
-export function MetadataSection() {
+interface MetadataSectionProps {
+  orientation?: 'vertical' | 'horizontal'
+  className?: string
+}
+
+export function MetadataSection({
+  orientation = 'horizontal',
+  className,
+}: MetadataSectionProps) {
   return (
-    <section className="grid grid-cols-3 gap-10">
+    <section
+      className={cn(
+        'grid gap-10',
+        orientation === 'vertical' ? 'grid-rows-3' : 'grid-cols-3',
+        className
+      )}
+    >
       <Suspense fallback={<MetadataCardSkeleton {...metadata.users} />}>
         <TotalOfPatientsMetadataCard {...metadata.users} />
       </Suspense>
 
-      <MetadataCardSkeleton {...metadata.applications} />
       <MetadataCardSkeleton {...metadata.alerts} />
+      <MetadataCardSkeleton {...metadata.applications} />
     </section>
   )
 }

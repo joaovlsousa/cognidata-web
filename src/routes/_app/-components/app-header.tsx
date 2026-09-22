@@ -1,6 +1,6 @@
 interface AppHeaderProps {
   title: string
-  description: string
+  description?: string
 }
 
 export function AppHeader({ title, description }: AppHeaderProps) {
