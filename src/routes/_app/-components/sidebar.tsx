@@ -1,5 +1,5 @@
 import { Link, useLocation } from '@tanstack/react-router'
-import { HomeIcon, UsersIcon } from 'lucide-react'
+import { HomeIcon, SettingsIcon, UserIcon, UsersIcon } from 'lucide-react'
 import { Suspense } from 'react'
 import { Logo } from '@/components/logo'
 import { Button } from '@/components/ui/button'
@@ -16,6 +16,16 @@ const links = [
     label: 'Pacientes',
     href: '/patients',
     icon: UsersIcon,
+  },
+  {
+    label: 'Configurações',
+    href: '/settings',
+    icon: SettingsIcon,
+  },
+  {
+    label: 'Perfil',
+    href: '/profile',
+    icon: UserIcon,
   },
 ]
 
@@ -41,7 +51,7 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <section className="h-16 grid grid-rows-1 place-items-center">
+      <section className="h-16 w-full min-w-0 grid grid-rows-1 place-items-center">
         <Suspense fallback={<UserButtonSkeleton />}>
           <UserButton />
         </Suspense>
