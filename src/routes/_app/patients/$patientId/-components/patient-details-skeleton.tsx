@@ -9,11 +9,10 @@ export function PatientDetailsSkeleton() {
         <Skeleton className="h-10 w-1/4" />
       </div>
 
-      <Skeleton className="h-48" />
-
-      <div className="flex items-center gap-10">
-        <Skeleton className="h-52 w-1/2" />
-        <Skeleton className="h-52 w-1/2" />
+      <div className="grid grid-cols-3 gap-6">
+        <Skeleton className="h-64" />
+        <Skeleton className="h-64" />
+        <Skeleton className="h-64" />
       </div>
 
       <Skeleton className="h-48" />

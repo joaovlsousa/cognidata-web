@@ -1,44 +1,25 @@
-import { Link, useNavigate, useParams } from '@tanstack/react-router'
+import { useNavigate, useParams } from '@tanstack/react-router'
 import { format } from 'date-fns'
-import {
-  GraduationCapIcon,
-  HospitalIcon,
-  PencilLineIcon,
-  Trash2Icon,
-  UserIcon,
-} from 'lucide-react'
+import { GraduationCapIcon, HospitalIcon, UserIcon } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { DeleteAlertDialog } from '@/components/delete-alert-dialog'
 import { AlertDialogDescription } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
 import { useDeletePatient } from '@/hooks/http/patient/use-delete-patient'
 import { useGetPatient } from '@/hooks/http/patient/use-get-patient'
-import { getNameInitials, maskPhone } from '@/lib/utils'
-import { PatientCardDetails } from './patient-card-details'
-
-const kinshipMapper = {
-  'father/mother': 'Pai/Mãe',
-  'grandfather/grandmother': 'Avô/Avó',
-  'uncle/aunt': 'Tio/Tia',
-}
-
-const schoolScheduleMapper = {
-  morning: 'Manhã',
-  afternoon: 'Tarde',
-  fullTime: 'Integral',
-}
+import { getDetailsFromPatient } from '../-data/get-details-from-patient'
+import { PatientDetailsCard } from './patient-details-card'
+import { PatientSettingsDropdown } from './patient-settings-dropdown'
 
 export function PatientDetails() {
   const { patientId } = useParams({ from: '/_app/patients/$patientId/' })
-  const [deletePatientDialogOpen, setDeletePatientDialogOpen] = useState(false)
+  const [isDeletePatientDialogOpen, setIsDeletePatientDialogOpen] =
+    useState(false)
   const navigate = useNavigate()
 
   const {
     data: { patient },
   } = useGetPatient({ patientId })
-  patient.schoolSchedule
-  const patientNameInitials = getNameInitials(patient.name)
 
   const deletePatientMutation = useDeletePatient()
 
@@ -49,15 +30,18 @@ export function PatientDetails() {
     navigate({ to: '/patients' })
   }
 
+  const { clinicalDetails, patientDetails, responsibleDetails, schoolDetails } =
+    getDetailsFromPatient(patient)
+
   return (
     <>
       <DeleteAlertDialog
-        open={deletePatientDialogOpen}
+        open={isDeletePatientDialogOpen}
         onConfirm={handleDeletePatient}
-        onCancel={() => setDeletePatientDialogOpen(false)}
+        onCancel={() => setIsDeletePatientDialogOpen(false)}
       >
         <AlertDialogDescription>
-          Ao continuar, você apagará todos os dados do paciente{' '}
+          Ao continuar, você apagará todos as informações do paciente{' '}
           <span className="text-foreground font-medium">{patient.name}</span>.
         </AlertDialogDescription>
       </DeleteAlertDialog>
@@ -66,7 +50,7 @@ export function PatientDetails() {
         <div className="flex items-end justify-between">
           <div className="flex items-center gap-x-3">
             <div className="size-12 grid place-items-center ring text-primary rounded-md text-xl font-semibold bg-primary/10 ring-primary">
-              {patientNameInitials}
+              {patient.name[0].toUpperCase()}
             </div>
 
             <div>
@@ -74,116 +58,72 @@ export function PatientDetails() {
 
               <p className="text-sm text-muted-foreground">
                 Acompanhamento desde{' '}
-                {format(patient.createdAt, `dd 'de' MMMM 'de' yyyy`)}
+                {format(patient.createdAt, `dd 'de' MMMM 'de' yyyy`)}.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Link to="/patients/$patientId/edit" params={{ patientId }}>
-              <Button variant="outline" size="lg" className="px-6">
-                <PencilLineIcon />
-                <span>Atualizar dados do paciente</span>
-              </Button>
-            </Link>
-
-            <Button
-              variant="destructive"
-              size="lg"
-              className="px-6"
-              onClick={() => setDeletePatientDialogOpen(true)}
-            >
-              <Trash2Icon />
-              <span>Excluir paciente</span>
-            </Button>
-          </div>
+          <PatientSettingsDropdown
+            onDelete={() => setIsDeletePatientDialogOpen(true)}
+          />
         </div>
 
-        <PatientCardDetails
-          icon={UserIcon}
-          title="Dados do paciente"
-          details={[
-            {
-              title: 'Nome',
-              description: patient.name,
-            },
-            {
-              title: 'Data de Nascimento',
-              description: format(
-                new Date(`${patient.dateOfBirth}T00:00`),
-                'dd/MM/yyy'
-              ),
-            },
-            {
-              title: 'CPF',
-              description: patient.cpf,
-            },
-            {
-              title: 'Gênero',
-              description:
-                patient.gender === 'female' ? 'Feminino' : 'Masculino',
-            },
-          ]}
-        />
+        <div className="grid grid-cols-3 gap-6">
+          <PatientDetailsCard icon={UserIcon} title="Informações do paciente">
+            <div className="space-y-3">
+              {patientDetails.map((detail) => (
+                <div key={detail.title}>
+                  <h4 className="text-sm text-muted-foreground">
+                    {detail.title}
+                  </h4>
+                  <p className="text-base font-medium">{detail.description}</p>
+                </div>
+              ))}
+            </div>
+          </PatientDetailsCard>
 
-        <div className="flex gap-10">
-          <PatientCardDetails
+          <PatientDetailsCard
             icon={UserIcon}
-            title="Dados do responsável"
-            details={[
-              {
-                title: 'Nome',
-                description: patient.patientResponsibleName,
-              },
-              {
-                title: 'Parentesco',
-                description: kinshipMapper[patient.patientResponsibleKinship],
-              },
-              {
-                title: 'Telefone',
-                description: maskPhone(patient.patientResponsiblePhone),
-              },
-              {
-                title: 'E-mail',
-                description: patient.patientResponsibleEmail,
-              },
-            ]}
-          />
+            title="Informações do responsável"
+          >
+            <div className="space-y-3">
+              {responsibleDetails.map((detail) => (
+                <div key={detail.title}>
+                  <h4 className="text-sm text-muted-foreground">
+                    {detail.title}
+                  </h4>
+                  <p className="text-base font-medium">{detail.description}</p>
+                </div>
+              ))}
+            </div>
+          </PatientDetailsCard>
 
-          <PatientCardDetails
-            icon={GraduationCapIcon}
-            title="Contexto escolar"
-            details={[
-              {
-                title: 'Escola',
-                description: patient.schoolName,
-              },
-              {
-                title: 'Ano escolar',
-                description: `${patient.schoolYear}° ano`,
-              },
-              {
-                title: 'Turno',
-                description: schoolScheduleMapper[patient.schoolSchedule],
-              },
-            ]}
-          />
+          <PatientDetailsCard icon={GraduationCapIcon} title="Contexto escolar">
+            <div className="space-y-3">
+              {schoolDetails.map((detail) => (
+                <div key={detail.title}>
+                  <h4 className="text-sm text-muted-foreground">
+                    {detail.title}
+                  </h4>
+                  <p className="text-base font-medium">{detail.description}</p>
+                </div>
+              ))}
+            </div>
+          </PatientDetailsCard>
         </div>
 
-        <PatientCardDetails
-          icon={HospitalIcon}
-          title="Contexto clínico"
-          details={[
-            {
-              title: 'Queixa principal',
-              description: patient.medicalChiefComplaint,
-            },
-            {
-              title: 'Observações',
-              description: patient.medicalObservations ?? '',
-            },
-          ]}
-        />
+        <PatientDetailsCard icon={HospitalIcon} title="Contexto clínico">
+          <div className="space-y-3">
+            {clinicalDetails.map((detail) => (
+              <div key={detail.title}>
+                <h4 className="text-sm text-muted-foreground">
+                  {detail.title}
+                </h4>
+                <p className="text-base font-medium">{detail.description}</p>
+              </div>
+            ))}
+          </div>
+        </PatientDetailsCard>
       </section>
     </>
   )

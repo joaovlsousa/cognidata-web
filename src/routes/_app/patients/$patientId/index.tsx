@@ -12,8 +12,8 @@ function RouteComponent() {
   return (
     <div className="space-y-10">
       <AppHeader
-        title="Detalhes do paciente"
-        description="Veja todos os dados de um paciente."
+        title="Informações do paciente"
+        description="Veja todas as informações deste paciente."
       />
 
       <Suspense fallback={<PatientDetailsSkeleton />}>
