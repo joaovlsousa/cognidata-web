@@ -12,7 +12,7 @@ type MetadataKeys = 'users' | 'applications' | 'alerts'
 const metadata: Record<MetadataKeys, MetadataCardSkeletonProps> = {
   users: {
     icon: UsersIcon,
-    title: 'Pacientes ativos',
+    title: 'Pacientes',
     color: 'primary',
   },
   applications: {

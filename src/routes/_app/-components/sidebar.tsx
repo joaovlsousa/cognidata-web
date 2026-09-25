@@ -23,7 +23,7 @@ const links = [
     icon: SettingsIcon,
   },
   {
-    label: 'Perfil',
+    label: 'Seu perfil',
     href: '/profile',
     icon: UserIcon,
   },

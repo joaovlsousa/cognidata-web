@@ -1,5 +1,3 @@
-'use client'
-
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import { Link } from '@tanstack/react-router'
 import {
