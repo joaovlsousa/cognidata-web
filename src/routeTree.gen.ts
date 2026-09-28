@@ -20,6 +20,7 @@ import { Route as PublicGamesIndexRouteImport } from './routes/_public/games/ind
 import { Route as PublicForgotPasswordIndexRouteImport } from './routes/_public/forgot-password/index'
 import { Route as PublicContactIndexRouteImport } from './routes/_public/contact/index'
 import { Route as PublicHomeIndexRouteImport } from './routes/_public/_home/index'
+import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
 import { Route as AppProfileIndexRouteImport } from './routes/_app/profile/index'
 import { Route as AppPatientsIndexRouteImport } from './routes/_app/patients/index'
 import { Route as AppDashboardIndexRouteImport } from './routes/_app/dashboard/index'
@@ -82,6 +83,11 @@ const PublicHomeIndexRoute = PublicHomeIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PublicRoute,
 } as any)
+const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppProfileIndexRoute = AppProfileIndexRouteImport.update({
   id: '/profile/',
   path: '/profile/',
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof AppDashboardIndexRoute
   '/patients/': typeof AppPatientsIndexRoute
   '/profile/': typeof AppProfileIndexRoute
+  '/settings/': typeof AppSettingsIndexRoute
   '/contact/': typeof PublicContactIndexRoute
   '/forgot-password/': typeof PublicForgotPasswordIndexRoute
   '/games/': typeof PublicGamesIndexRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardIndexRoute
   '/patients': typeof AppPatientsIndexRoute
   '/profile': typeof AppProfileIndexRoute
+  '/settings': typeof AppSettingsIndexRoute
   '/contact': typeof PublicContactIndexRoute
   '/forgot-password': typeof PublicForgotPasswordIndexRoute
   '/games': typeof PublicGamesIndexRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/_app/dashboard/': typeof AppDashboardIndexRoute
   '/_app/patients/': typeof AppPatientsIndexRoute
   '/_app/profile/': typeof AppProfileIndexRoute
+  '/_app/settings/': typeof AppSettingsIndexRoute
   '/_public/_home/': typeof PublicHomeIndexRoute
   '/_public/contact/': typeof PublicContactIndexRoute
   '/_public/forgot-password/': typeof PublicForgotPasswordIndexRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/patients/'
     | '/profile/'
+    | '/settings/'
     | '/contact/'
     | '/forgot-password/'
     | '/games/'
@@ -202,6 +212,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/patients'
     | '/profile'
+    | '/settings'
     | '/contact'
     | '/forgot-password'
     | '/games'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/_app/dashboard/'
     | '/_app/patients/'
     | '/_app/profile/'
+    | '/_app/settings/'
     | '/_public/_home/'
     | '/_public/contact/'
     | '/_public/forgot-password/'
@@ -320,6 +332,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicHomeIndexRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_app/settings/': {
+      id: '/_app/settings/'
+      path: '/settings'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof AppSettingsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_app/profile/': {
       id: '/_app/profile/'
       path: '/profile'
@@ -376,6 +395,7 @@ interface AppRouteRouteChildren {
   AppDashboardIndexRoute: typeof AppDashboardIndexRoute
   AppPatientsIndexRoute: typeof AppPatientsIndexRoute
   AppProfileIndexRoute: typeof AppProfileIndexRoute
+  AppSettingsIndexRoute: typeof AppSettingsIndexRoute
   AppPatientsPatientIdIndexRoute: typeof AppPatientsPatientIdIndexRoute
   AppPatientsImportIndexRoute: typeof AppPatientsImportIndexRoute
   AppPatientsNewIndexRoute: typeof AppPatientsNewIndexRoute
@@ -386,6 +406,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDashboardIndexRoute: AppDashboardIndexRoute,
   AppPatientsIndexRoute: AppPatientsIndexRoute,
   AppProfileIndexRoute: AppProfileIndexRoute,
+  AppSettingsIndexRoute: AppSettingsIndexRoute,
   AppPatientsPatientIdIndexRoute: AppPatientsPatientIdIndexRoute,
   AppPatientsImportIndexRoute: AppPatientsImportIndexRoute,
   AppPatientsNewIndexRoute: AppPatientsNewIndexRoute,
