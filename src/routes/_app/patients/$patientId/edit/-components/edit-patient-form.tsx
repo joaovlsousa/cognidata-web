@@ -84,7 +84,7 @@ export function EditPatientForm({ patient }: EditPatientFormProps) {
       dateOfBirth,
     }
 
-    const { id, applicatorId, createdAt, cpf, ...oldValues } = patient
+    const { id, applicatorId, createdAt, cpf, status, ...oldValues } = patient
     const isSameValues = compareObjectValues(oldValues, newValues)
 
     if (isSameValues) {
