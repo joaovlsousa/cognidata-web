@@ -12,6 +12,7 @@ export interface GetPatientResponse {
     cpf: string
     gender: 'male' | 'female'
     dateOfBirth: string
+    status: 'active' | 'alert' | 'pending'
     patientResponsibleName: string
     patientResponsibleKinship:
       | 'father/mother'
