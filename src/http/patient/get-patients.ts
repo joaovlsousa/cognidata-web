@@ -16,6 +16,7 @@ export interface GetPatientsResponse {
     name: string
     gender: 'male' | 'female'
     dateOfBirth: string
+    status: 'active' | 'alert' | 'pending'
     patientResponsibleName: string
     patientResponsibleKinship:
       | 'father/mother'

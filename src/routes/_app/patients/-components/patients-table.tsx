@@ -10,6 +10,21 @@ import { PatientsTableActions } from './patients-table-actions'
 import { PatientsTableEmpty } from './patients-table-empty'
 import { PatientsTableHeader } from './patients-table-header'
 
+const patientStatusConfig = {
+  active: {
+    label: 'Ativo',
+    color: 'green',
+  },
+  pending: {
+    label: 'Aguardando',
+    color: 'indigo',
+  },
+  alert: {
+    label: 'Alerta',
+    color: 'amber',
+  },
+}
+
 export function PatientsTable() {
   const patientsIdsToDelete = usePatientsToDelete((state) => state.patientsIds)
   const toggle = usePatientsToDelete((state) => state.toggle)
@@ -27,7 +42,7 @@ export function PatientsTable() {
       <TableBody>
         {patients.length === 0 && <PatientsTableEmpty />}
 
-        {patients.map((patient, i) => (
+        {patients.map((patient) => (
           <TableRow key={patient.id}>
             <TableCell className="pl-3">
               <Checkbox
@@ -62,17 +77,10 @@ export function PatientsTable() {
               <Badge
                 className={cn(
                   'py-1 ring',
-                  i % 3 === 0
-                    ? 'bg-indigo-500/10 ring-indigo-500 text-indigo-500'
-                    : 'bg-green-500/10 ring-green-500 text-green-500',
-                  i % 4 === 0 && 'bg-amber-500/10 ring-amber-500 text-amber-500'
+                  `bg-${patientStatusConfig[patient.status].color}-500/10 ring-${patientStatusConfig[patient.status].color}-500 text-${patientStatusConfig[patient.status].color}-500`
                 )}
               >
-                {i % 4 === 0
-                  ? 'Acompanhar'
-                  : i % 3 === 0
-                    ? 'Aguardando'
-                    : 'Ativo'}
+                {patientStatusConfig[patient.status].label}
               </Badge>
             </TableCell>
 
